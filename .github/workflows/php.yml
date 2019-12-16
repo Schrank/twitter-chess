@@ -4,19 +4,20 @@ on: [push]
 
 jobs:
   build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v1
+#
+#      - name: Validate composer.json and composer.lock
+#        run: composer validate
+#
+#      - name: Install dependencies
+#        run: composer install --prefer-dist --no-progress --no-suggest
 
+  phpunit:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    - name: GitHub Action for PHPUnit
-      uses: pxgamer/phpunit-action@v1.0.0
-      with:
-        command: vendor/bin/phpunit tests
+      - uses: actions/checkout@v1
+      - uses: pxgamer/phpunit-action@master
+        with:
+          command: tests/
