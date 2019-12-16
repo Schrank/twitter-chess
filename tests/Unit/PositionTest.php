@@ -59,6 +59,26 @@ class PositionTest extends TestCase
         yield ['Z9'];
     }
 
+    public function invalidIntPositions(): Generator
+    {
+        yield [-9, 1];
+        yield [-1, 1];
+        yield [1, -1];
+        yield [1, 9];
+        yield [-1, 9];
+        yield [9, 9];
+        yield [-1, -1];
+    }
+
+    /**
+     * @dataProvider invalidIntPositions
+     */
+    public function testCreateFromInts(int $column, int $row): void
+    {
+        $this->expectException(InvalidPositionException::class);
+        Position::createFromInts($column, $row);
+    }
+
     /**
      * @dataProvider validPositions
      */

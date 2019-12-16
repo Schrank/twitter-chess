@@ -39,9 +39,16 @@ class Position
         $this->pos = $pos;
     }
 
-    public static function createFromInts($column, $row): self
+    public static function createFromInts(int $column, int $row): self
     {
-        return new self(self::$columnMapping[$column + 1] . $row);
+        if (!in_array($column, range(1, 8), true)) {
+            throw new InvalidPositionException(sprintf('Column must be between 1 and 8, "%s" is not.', $column));
+        }
+        if (!in_array($row, range(1, 8), true)) {
+            throw new InvalidPositionException(sprintf('Row must be between 1 and 8, "%s" is not.', $row));
+        }
+
+        return new self(self::$columnMapping[$column] . $row);
     }
 
     public function toString(): string

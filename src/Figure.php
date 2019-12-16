@@ -6,7 +6,8 @@ namespace Schrank\TwitterChess;
 
 interface Figure
 {
-    public function move(Position $p);
-
-    public function isValid(Position $p): bool;
+    /**
+     * @return Position[]
+     */
+    public function getValidPositions(): array;
 }
