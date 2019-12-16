@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Schrank\TwitterChess\Exception\InvalidPositionException;
-use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
-class Queen implements Figure
+class Queen extends AbstractFigure
 {
-    private Position $position;
-
-    public function __construct(Position $position)
-    {
-        $this->position = $position;
-    }
-
     /**
      * @return Position[]
      */
@@ -69,11 +61,11 @@ class Queen implements Figure
     {
         $validPositions = [];
 
-        for ($row = 1; $row <= 8; $row++) {
+        for ($rowOrColumn = 1; $rowOrColumn <= 8; $rowOrColumn++) {
             try {
                 $position = Position::createFromInts(
                     $this->position->getColumn(),
-                    $row
+                    $rowOrColumn
                 );
                 if (!$position->equals($this->position)) {
                     $validPositions[] = $position;
@@ -81,12 +73,9 @@ class Queen implements Figure
             } catch (InvalidPositionException $e) {
                 // do nothing, invalid positions are discarded
             }
-        }
-
-        for ($column = 1; $column <= 8; $column++) {
             try {
                 $position = Position::createFromInts(
-                    $column,
+                    $rowOrColumn,
                     $this->position->getRow()
                 );
                 if (!$position->equals($this->position)) {

@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Schrank\TwitterChess\Exception\InvalidPositionException;
-use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
-class King implements Figure
+class King extends AbstractFigure
 {
-    private Position $position;
-
-    public function __construct(Position $position)
-    {
-        $this->position = $position;
-    }
-
     /**
      * @return Position[]
      */
