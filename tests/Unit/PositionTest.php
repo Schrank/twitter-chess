@@ -39,11 +39,11 @@ class PositionTest extends TestCase
 
     public function validPositions(): Generator
     {
-        yield ['A1'];
-        yield ['B2'];
-        yield ['H1'];
-        yield ['H8'];
-        yield ['A8'];
+        yield ['A1', 1, 1];
+        yield ['B2', 2, 2];
+        yield ['H1', 8, 1];
+        yield ['H8', 8, 8];
+        yield ['A8', 1, 8];
     }
 
     public function invalidPositions(): Generator
@@ -59,9 +59,12 @@ class PositionTest extends TestCase
         yield ['Z9'];
     }
 
-    public function testCreationByIntegers()
+    /**
+     * @dataProvider validPositions
+     */
+    public function testToIntArray($pos, $column, $row)
     {
-        $pos = Position::createFromInts(1, 1,);
-        $this->assertInstanceOf(Position::class, $pos);
+        $p = new Position($pos);
+        $this->assertSame([$column, $row], $p->toIntArray());
     }
 }

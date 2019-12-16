@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class BoardTest extends TestCase
 {
 
-    private $board;
+    private Board $board;
 
     public function testToString(): void
     {

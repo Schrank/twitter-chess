@@ -9,7 +9,18 @@ use Schrank\TwitterChess\Exception\InvalidPositionException;
 class Position
 {
     //    private string $pos;
-    private $pos;
+    private static array $columnMapping
+        = [
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
+            5 => 'E',
+            6 => 'F',
+            7 => 'G',
+            8 => 'H'
+        ];
+    private string $pos;
 
     public function __construct(string $pos)
     {
@@ -30,13 +41,21 @@ class Position
 
     public static function createFromInts($column, $row): self
     {
-        $columnMapping = range('A', 'H');
-
-        return new self($columnMapping[$column + 1] . $row);
+        return new self(self::$columnMapping[$column + 1] . $row);
     }
 
     public function toString(): string
     {
         return $this->pos;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function toIntArray(): array
+    {
+        [$column, $row] = str_split($this->pos);
+
+        return [(int)array_flip(self::$columnMapping)[$column], (int)$row];
     }
 }
