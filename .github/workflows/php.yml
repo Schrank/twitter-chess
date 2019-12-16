@@ -3,17 +3,6 @@ name: Unit tests
 on: [push]
 
 jobs:
-  #  build:
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v1
-  #
-  #      - name: Validate composer.json and composer.lock
-  #        run: composer validate
-  #
-  #      - name: Install dependencies
-  #        run: composer install --prefer-dist --no-progress --no-suggest
-
   phpunit:
     runs-on: ubuntu-latest
     steps:
@@ -25,8 +14,4 @@ jobs:
           uses: shivammathur/setup-php@v1
           with:
             php-version: '7.4'
-        #            extensions: mbstring, intl #optional, setup extensions
-        #            ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
-        #            coverage: xdebug #optional, setup coverage driver
-        #            pecl: false #optional, setup PECL
         - run: vendor/bin/phpunit tests
