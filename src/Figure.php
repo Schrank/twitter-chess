@@ -10,4 +10,6 @@ interface Figure
      * @return Position[]
      */
     public function getValidPositions(): array;
+
+    public function getIcon(): string;
 }

@@ -13,6 +13,8 @@ use Generator;
 class BishopTest extends AbstractFigureTest
 {
     protected static string $testedClass = Bishop::class;
+    protected static string $whiteIcon = '🏃🏼';
+    protected static string $blackIcon = '🧝';
 
     public function validMoves(): Generator
     {

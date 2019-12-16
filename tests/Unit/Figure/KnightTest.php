@@ -9,6 +9,8 @@ use Generator;
 class KnightTest extends AbstractFigureTest
 {
     protected static string $testedClass = Knight::class;
+    protected static string $whiteIcon = '🦥';
+    protected static string $blackIcon = '🐴';
 
     public function validMoves(): Generator
     {

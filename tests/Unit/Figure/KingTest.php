@@ -13,6 +13,9 @@ use Generator;
 class KingTest extends AbstractFigureTest
 {
     protected static string $testedClass = King::class;
+    protected static string $whiteIcon = '🤵🏼';
+    protected static string $blackIcon = '🤴';
+
     public function validMoves(): Generator
     {
         yield ['B4', ['A5', 'B5', 'C5', 'A4', 'C4', 'A3', 'B3', 'C3']];

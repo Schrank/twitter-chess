@@ -9,6 +9,8 @@ use Generator;
 class QueenTest extends AbstractFigureTest
 {
     protected static string $testedClass = Queen::class;
+    protected static string $whiteIcon = '👰🏼';
+    protected static string $blackIcon = '👸';
 
     public function validMoves(): Generator
     {

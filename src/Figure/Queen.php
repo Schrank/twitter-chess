@@ -86,4 +86,14 @@ class Queen extends AbstractFigure
 
         return null;
     }
+
+    public function getIcon(): string
+    {
+        if ($this->color->isWhite()) {
+            return '👰🏼';
+        }
+
+        return '👸';
+
+    }
 }

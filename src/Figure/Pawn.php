@@ -45,4 +45,14 @@ class Pawn extends AbstractFigure
     {
         return $this->color->isWhite();
     }
+
+    public function getIcon(): string
+    {
+        if ($this->color->isWhite()) {
+            return '👮🏻';
+        }
+
+        return '💂🏼';
+
+    }
 }

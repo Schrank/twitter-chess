@@ -45,4 +45,14 @@ class Bishop extends AbstractFigure
 
         return $validPositions;
     }
+
+    public function getIcon(): string
+    {
+        if ($this->color->isWhite()) {
+            return '🏃🏼';
+        }
+
+        return '🧝';
+
+    }
 }
