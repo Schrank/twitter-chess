@@ -58,4 +58,10 @@ class PositionTest extends TestCase
         yield ['H9'];
         yield ['Z9'];
     }
+
+    public function testCreationByIntegers()
+    {
+        $pos = Position::createFromInts(1, 1,);
+        $this->assertInstanceOf(Position::class, $pos);
+    }
 }

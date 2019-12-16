@@ -28,6 +28,13 @@ class Position
         $this->pos = $pos;
     }
 
+    public static function createFromInts($column, $row): self
+    {
+        $columnMapping = range('A', 'H');
+
+        return new self($columnMapping[$column + 1] . $row);
+    }
+
     public function toString(): string
     {
         return $this->pos;
