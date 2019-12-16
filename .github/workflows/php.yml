@@ -14,5 +14,6 @@ jobs:
           uses: shivammathur/setup-php@v1
           with:
             php-version: '7.4'
+
         - name: PHPUnit
           run: vendor/bin/phpunit tests
