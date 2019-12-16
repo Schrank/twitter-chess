@@ -6,6 +6,7 @@ namespace Schrank\TwitterChess\Figure;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
@@ -27,7 +28,7 @@ abstract class AbstractFigureTest extends TestCase
     public function testGetValidPositions($pos, $expected): void
     {
         /** @var Figure $figure */
-        $figure    = new static::$testedClass(new Position($pos));
+        $figure    = new static::$testedClass(new Position($pos), new Color(Color::BLACK));
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
         }, $figure->getValidPositions());
