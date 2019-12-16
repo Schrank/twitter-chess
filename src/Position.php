@@ -54,8 +54,22 @@ class Position
      */
     public function toIntArray(): array
     {
-        [$column, $row] = str_split($this->pos);
+        [, $row] = str_split($this->pos);
 
-        return [(int)array_flip(self::$columnMapping)[$column], (int)$row];
+        return [$this->getColumn(), (int)$row];
+    }
+
+    public function getColumn(): int
+    {
+        [$column] = str_split($this->pos);
+
+        return (int)array_flip(self::$columnMapping)[$column];
+    }
+
+    public function getRow(): int
+    {
+        [, $row] = str_split($this->pos);
+
+        return (int)$row;
     }
 }

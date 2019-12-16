@@ -67,4 +67,16 @@ class PositionTest extends TestCase
         $p = new Position($pos);
         $this->assertSame([$column, $row], $p->toIntArray());
     }
+
+    public function testGetColumn(): void
+    {
+        $p = new Position('B3');
+        $this->assertSame(2, $p->getColumn());
+    }
+
+    public function testGetRow(): void
+    {
+        $p = new Position('B3');
+        $this->assertSame(3, $p->getRow());
+    }
 }
