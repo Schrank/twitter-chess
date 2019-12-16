@@ -31,6 +31,9 @@ class Board
      * 🏰🦥🏃🏼‍🤵🏼👰🏼🏃️🦥🏰
      */
 
+    /**
+     * @return string[]
+     */
     public function toString(): array
     {
         $board = [];

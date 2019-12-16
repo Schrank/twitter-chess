@@ -18,28 +18,29 @@ class Bishop extends AbstractFigure
         $validPositions = [];
 
         for ($rowsAndColumns = -8; $rowsAndColumns <= 8; $rowsAndColumns++) {
-            try {
-                $position = Position::createFromInts(
-                    $this->position->getColumn() + $rowsAndColumns,
-                    $this->position->getRow() + $rowsAndColumns
-                );
-                if (!$position->equals($this->position)) {
-                    $validPositions[] = $position;
-                }
-            } catch (InvalidPositionException $e) {
-                // do nothing, invalid positions are discarded
+            $validPositions[] = $this->generateValidPositions($rowsAndColumns, 1);
+            $validPositions[] = $this->generateValidPositions($rowsAndColumns, -1);
+        }
+
+        return array_merge(...array_filter($validPositions));
+    }
+
+    /**
+     * @return Position[]
+     */
+    private function generateValidPositions(int $rowsAndColumns, int $sign): array
+    {
+        $validPositions = [];
+        try {
+            $position = Position::createFromInts(
+                $this->position->getColumn() + $rowsAndColumns * $sign,
+                $this->position->getRow() + $rowsAndColumns
+            );
+            if (!$position->equals($this->position)) {
+                $validPositions[] = $position;
             }
-            try {
-                $position = Position::createFromInts(
-                    $this->position->getColumn() - $rowsAndColumns,
-                    $this->position->getRow() + $rowsAndColumns
-                );
-                if (!$position->equals($this->position)) {
-                    $validPositions[] = $position;
-                }
-            } catch (InvalidPositionException $e) {
-                // do nothing, invalid positions are discarded
-            }
+        } catch (InvalidPositionException $e) {
+            // do nothing, invalid positions are discarded
         }
 
         return $validPositions;

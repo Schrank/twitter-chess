@@ -20,7 +20,7 @@ class Color
         return $this->color;
     }
 
-    public function isWhite()
+    public function isWhite(): bool
     {
         return $this->color === self::WHITE;
     }

@@ -8,7 +8,9 @@ use Schrank\TwitterChess\Exception\InvalidPositionException;
 
 class Position
 {
-    //    private string $pos;
+    /**
+     * @var string[]
+     */
     private static array $columnMapping
         = [
             1 => 'A',
