@@ -1,5 +1,6 @@
 {
   "name": "schrank/twitter-chess",
+  "description": "Homepage to play chess agains with Twitter Auth",
   "type": "project",
   "prefer-stable": true,
   "require-dev": {
