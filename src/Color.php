@@ -6,18 +6,23 @@ namespace Schrank\TwitterChess;
 
 class Color
 {
-    public const WHITE = 0;
-    public const BLACK = 1;
+    private const WHITE = 0;
+    private const BLACK = 1;
     private int $color;
 
-    public function __construct(int $color)
+    private function __construct(int $color)
     {
         $this->color = $color;
     }
 
-    public function getColor(): int
+    public static function black(): Color
     {
-        return $this->color;
+        return new self(self::BLACK);
+    }
+
+    public static function white(): Color
+    {
+        return new self(self::WHITE);
     }
 
     public function isWhite(): bool

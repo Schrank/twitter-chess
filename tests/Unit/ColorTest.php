@@ -8,18 +8,12 @@ use PHPUnit\Framework\TestCase;
 
 class ColorTest extends TestCase
 {
-    public function testGetColor()
+    public function testIsWhite(): void
     {
-        $color = new Color(Color::BLACK);
-        $this->assertSame(Color::BLACK, $color->getColor());
-    }
-
-    public function testIsWhite()
-    {
-        $color = new Color(Color::WHITE);
+        $color = Color::white();
         $this->assertTrue($color->isWhite());
 
-        $color = new Color(Color::BLACK);
+        $color = Color::black();
         $this->assertFalse($color->isWhite());
     }
 }

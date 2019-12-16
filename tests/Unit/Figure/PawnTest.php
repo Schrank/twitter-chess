@@ -15,10 +15,10 @@ class PawnTest extends TestCase
     /**
      * @dataProvider validMoves
      */
-    public function testGetValidPositions(int $color, $pos, $expected): void
+    public function testGetValidPositions(Color $color, $pos, $expected): void
     {
         /** @var Figure $figure */
-        $figure    = new Pawn(new Position($pos), new Color($color));
+        $figure    = new Pawn(new Position($pos), $color);
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
         }, $figure->getValidPositions());
@@ -28,12 +28,12 @@ class PawnTest extends TestCase
 
     public function validMoves(): Generator
     {
-        yield [Color::WHITE, 'B2', ['B3', 'B4']];
-        yield [Color::WHITE, 'E4', ['E5']];
-        yield [Color::WHITE, 'E8', []];
+        yield [Color::white(), 'B2', ['B3', 'B4']];
+        yield [Color::white(), 'E4', ['E5']];
+        yield [Color::white(), 'E8', []];
 
-        yield [Color::BLACK, 'B2', ['B1']];
-        yield [Color::BLACK, 'E4', ['E3']];
-        yield [Color::BLACK, 'E7', ['E6', 'E5']];
+        yield [Color::black(), 'B2', ['B1']];
+        yield [Color::black(), 'E4', ['E3']];
+        yield [Color::black(), 'E7', ['E6', 'E5']];
     }
 }

@@ -28,7 +28,7 @@ abstract class AbstractFigureTest extends TestCase
     public function testGetValidPositions($pos, $expected): void
     {
         /** @var Figure $figure */
-        $figure    = new static::$testedClass(new Position($pos), new Color(Color::BLACK));
+        $figure    = new static::$testedClass(new Position($pos), Color::black());
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
         }, $figure->getValidPositions());
