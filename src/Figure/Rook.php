@@ -17,30 +17,24 @@ class Rook extends AbstractFigure
         $validPositions = [];
 
         for ($rowOrColumn = 1; $rowOrColumn <= 8; $rowOrColumn++) {
-            try {
-                $position = Position::createFromInts(
-                    $this->position->getColumn(),
-                    $rowOrColumn
-                );
-                if (!$position->equals($this->position)) {
-                    $validPositions[] = $position;
-                }
-            } catch (InvalidPositionException $e) {
-                // do nothing, invalid positions are discarded
-            }
-            try {
-                $position = Position::createFromInts(
-                    $rowOrColumn,
-                    $this->position->getRow()
-                );
-                if (!$position->equals($this->position)) {
-                    $validPositions[] = $position;
-                }
-            } catch (InvalidPositionException $e) {
-                // do nothing, invalid positions are discarded
-            }
+            $validPositions[] = $this->createNewRookPosition($this->position->getColumn(), $rowOrColumn);
+            $validPositions[] = $this->createNewRookPosition($rowOrColumn, $this->position->getRow());
         }
 
-        return $validPositions;
+        return array_filter($validPositions);
+    }
+
+    private function createNewRookPosition(int $column, int $row): ?Position
+    {
+        try {
+            $position = Position::createFromInts($column, $row);
+            if (!$position->equals($this->position)) {
+                return $position;
+            }
+        } catch (InvalidPositionException $e) {
+            // do nothing, invalid positions are discarded
+        }
+
+        return null;
     }
 }
