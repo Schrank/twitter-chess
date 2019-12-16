@@ -79,4 +79,16 @@ class PositionTest extends TestCase
         $p = new Position('B3');
         $this->assertSame(3, $p->getRow());
     }
+
+    public function testEquals(): void
+    {
+        $b3 = new Position('B3');
+        $this->assertTrue($b3->equals(new Position('B3')));
+
+        $this->assertFalse($b3->equals(new Position('B2')));
+        $this->assertFalse($b3->equals(new Position('A2')));
+        $this->assertFalse($b3->equals(new Position('H8')));
+        $this->assertFalse($b3->equals(new Position('F4')));
+        $this->assertFalse($b3->equals(new Position('D5')));
+    }
 }

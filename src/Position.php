@@ -72,4 +72,9 @@ class Position
 
         return (int)$row;
     }
+
+    public function equals(Position $compareWith): bool
+    {
+        return $this->getRow() === $compareWith->getRow() && $this->getColumn() === $compareWith->getColumn();
+    }
 }
