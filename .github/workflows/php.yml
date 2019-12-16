@@ -15,5 +15,5 @@ jobs:
           with:
             php-version: '7.4'
 
-        - name: PHPUnit
-          run: vendor/bin/phpunit tests
+#        - name: PHPUnit
+#          run: vendor/bin/phpunit tests
