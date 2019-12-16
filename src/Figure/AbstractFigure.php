@@ -11,7 +11,7 @@ use Schrank\TwitterChess\Position;
 abstract class AbstractFigure implements Figure
 {
     protected Position $position;
-    private Color $color;
+    protected Color $color;
 
     public function __construct(Position $position, Color $color)
     {
