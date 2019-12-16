@@ -4,7 +4,8 @@
   "type": "project",
   "prefer-stable": true,
   "require-dev": {
-    "phpunit/phpunit": "^8.0"
+    "phpunit/phpunit": "^8.0",
+    "phpstan/phpstan": "^0.7"
   },
   "autoload": {
     "psr-4": {
