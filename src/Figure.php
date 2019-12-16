@@ -11,5 +11,9 @@ interface Figure
      */
     public function getValidPositions(): array;
 
+    public function getPosition(): Position;
+
     public function getIcon(): string;
+
+    public function getName(): string;
 }

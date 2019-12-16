@@ -16,10 +16,10 @@ abstract class AbstractFigureTest extends TestCase
     protected static string $testedClass;
     protected static string $whiteIcon;
     protected static string $blackIcon;
+    private Figure $figure;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    protected function setUp(): void
     {
-        parent::__construct($name, $data, $dataName);
         if (static::$testedClass === null) {
             throw new RuntimeException('$testedClass must be implemented.');
         }
@@ -29,6 +29,10 @@ abstract class AbstractFigureTest extends TestCase
         if (static::$whiteIcon === null) {
             throw new RuntimeException('$whiteIcon must be implemented.');
         }
+        $this->figure = new static::$testedClass(
+            $this->createMock(Position::class),
+            $this->createMock(Color::class)
+        );
     }
 
     abstract public function validMoves(): Generator;
@@ -59,5 +63,12 @@ abstract class AbstractFigureTest extends TestCase
         /** @var Figure $figure */
         $figure = new static::$testedClass($this->createMock(Position::class), Color::black());
         $this->assertSame(static::$blackIcon, $figure->getIcon());
+    }
+
+    public function testGetName(): void
+    {
+        $expected = basename(str_replace('\\', '/', get_class($this->figure)));
+
+        $this->assertSame($expected, $this->figure->getName());
     }
 }
