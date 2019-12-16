@@ -5,23 +5,10 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Generator;
-use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Position;
 
-class RookTest extends TestCase
+class RookTest extends AbstractFigureTest
 {
-    /**
-     * @dataProvider validMoves
-     */
-    public function testGetValidPositions($pos, $expected): void
-    {
-        $figure    = new Rook(new Position($pos));
-        $positions = array_map(static function (Position $pos) {
-            return $pos->toString();
-        }, $figure->getValidPositions());
-
-        $this->assertEqualsCanonicalizing($expected, $positions);
-    }
+    protected static string $testedClass = Rook::class;
 
     public function validMoves(): Generator
     {
