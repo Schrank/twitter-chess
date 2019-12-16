@@ -1,0 +1,26 @@
+{
+  "name": "schrank/twitter-chess",
+  "type": "project",
+  "prefer-stable": true,
+  "require-dev": {
+    "phpunit/phpunit": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Schrank\\TwitterChess\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Schrank\\TwitterChess\\": "tests/Unit"
+    }
+  },
+  "license": "BSD 3-clause",
+  "authors": [
+    {
+      "name": "Fabian Blechschmidt",
+      "email": "blechschmidt@fabian-blechschmidt.de"
+    }
+  ],
+  "minimum-stability": "dev"
+}
