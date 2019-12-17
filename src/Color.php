@@ -6,11 +6,11 @@ namespace Schrank\TwitterChess;
 
 class Color
 {
-    private const WHITE = 0;
-    private const BLACK = 1;
-    private int $color;
+    public const WHITE = 'white';
+    public const BLACK = 'black';
+    private string $color;
 
-    private function __construct(int $color)
+    private function __construct(string $color)
     {
         $this->color = $color;
     }
