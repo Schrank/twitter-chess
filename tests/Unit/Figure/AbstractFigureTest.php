@@ -16,11 +16,11 @@ abstract class AbstractFigureTest extends TestCase
     protected static string $testedClass;
     protected static string $whiteIcon;
     protected static string $blackIcon;
+    private Color $color;
     private Figure $figure;
     protected static string $startPositionString = 'D4';
     protected static string $validMove = 'D5';
     protected static string $invalidMove = 'H8';
-    private Position $startPosition;
 
     protected function setUp(): void
     {
@@ -33,12 +33,9 @@ abstract class AbstractFigureTest extends TestCase
         if (static::$whiteIcon === null) {
             throw new RuntimeException('$whiteIcon must be implemented.');
         }
-        $this->startPosition = new Position(static::$startPositionString);
-        $this->figure        = new static::$testedClass(
-            $this->startPosition,
-            Color::black()
-        );
-
+        $startPosition = new Position(static::$startPositionString);
+        $this->color   = Color::black();
+        $this->figure  = new static::$testedClass($startPosition, $this->color);
     }
 
     abstract public function validMoves(): Generator;
@@ -84,5 +81,10 @@ abstract class AbstractFigureTest extends TestCase
         $oldPosition = $this->figure->getPosition();
         $this->figure->move($newPosition);
         $this->assertNotEquals($oldPosition, $newPosition);
+    }
+
+    public function testGetColor()
+    {
+        $this->assertSame($this->color, $this->figure->getColor());
     }
 }

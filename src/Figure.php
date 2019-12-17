@@ -17,5 +17,7 @@ interface Figure
 
     public function getName(): string;
 
-    public function move(Position $position);
+    public function move(Position $position): void;
+
+    public function getColor(): Color;
 }

@@ -36,7 +36,7 @@ abstract class AbstractFigure implements Figure
         return $this->shortName;
     }
 
-    public function move(Position $position)
+    public function move(Position $position): void
     {
         $valid = $this->isNewPositionValid($position);
 
@@ -69,5 +69,10 @@ abstract class AbstractFigure implements Figure
         }
 
         return $valid;
+    }
+
+    public function getColor(): Color
+    {
+        return $this->color;
     }
 }
