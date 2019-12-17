@@ -13,6 +13,8 @@ use Schrank\TwitterChess\Figure\Rook;
 
 class Game
 {
+    private array $players;
+    private Color $currentPlayer;
     private Board $board;
     /**
      * @var string[]
@@ -60,12 +62,14 @@ class Game
 
     public function __construct()
     {
-        $this->board = new Board();
+        $this->board   = new Board();
+        $this->players = [Color::white(), Color::black()];
     }
 
     public function init(): void
     {
-        $board = $this->getBoard();
+        $this->currentPlayer = $this->players[0];
+        $board               = $this->getBoard();
         foreach ($this->initBoard as $color => $figures) {
             foreach ($figures as $pos => $figureClass) {
                 $board->addFigure(
@@ -77,11 +81,27 @@ class Game
 
     public function move(Position $oldPos, Position $newPos): void
     {
+        $this->nextPlayer();
         $this->board->getFigureFromPosition($oldPos)->move($newPos);
     }
 
     public function getBoard(): Board
     {
         return $this->board;
+    }
+
+    public function getCurrentPlayer(): Color
+    {
+        return $this->currentPlayer;
+    }
+
+    private function nextPlayer(): void
+    {
+        foreach ($this->players as $player) {
+            if ($player === $this->currentPlayer) {
+                continue;
+            }
+            $this->currentPlayer = $player;
+        }
     }
 }

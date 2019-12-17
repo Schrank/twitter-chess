@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Position;
 
@@ -54,6 +55,18 @@ class GameTest extends TestCase
 
         $this->game->move(new Position('B2'), new Position('B4'));
         $this->validateBoardState($board);
+    }
+
+    public function testGetCurrentPlayer(): void
+    {
+        $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
+    }
+
+    public function testPlayerChangesAfterMove()
+    {
+        $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
+        $this->game->move(new Position('B2'), new Position('B4'));
+        $this->assertEquals(Color::black(), $this->game->getCurrentPlayer());
     }
 
     protected function setUp(): void
