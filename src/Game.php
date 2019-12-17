@@ -14,7 +14,10 @@ use Schrank\TwitterChess\Figure\Rook;
 class Game
 {
     private Board $board;
-    private $initBoard
+    /**
+     * @var string[]
+     */
+    private array $initBoard
         = [
             'white' =>
                 [
@@ -60,7 +63,7 @@ class Game
         $this->board = new Board();
     }
 
-    public function init()
+    public function init(): void
     {
         $board = $this->getBoard();
         foreach ($this->initBoard as $color => $figures) {
@@ -70,6 +73,11 @@ class Game
                 );
             }
         }
+    }
+
+    public function move($oldPos, $newPos): void
+    {
+
     }
 
     public function getBoard(): Board
