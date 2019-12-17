@@ -34,4 +34,9 @@ abstract class AbstractFigure implements Figure
 
         return $this->shortName;
     }
+
+    public function move(Position $position)
+    {
+        $this->position = $position;
+    }
 }

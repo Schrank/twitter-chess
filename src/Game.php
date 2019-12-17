@@ -75,9 +75,9 @@ class Game
         }
     }
 
-    public function move($oldPos, $newPos): void
+    public function move(Position $oldPos, Position $newPos): void
     {
-
+        $this->board->getFigureFromPosition($oldPos)->move($newPos);
     }
 
     public function getBoard(): Board

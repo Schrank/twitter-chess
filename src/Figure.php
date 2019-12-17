@@ -16,4 +16,6 @@ interface Figure
     public function getIcon(): string;
 
     public function getName(): string;
+
+    public function move(Position $position);
 }

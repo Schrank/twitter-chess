@@ -57,6 +57,31 @@ class BoardTest extends TestCase
         $this->board->addFigure($figure);
     }
 
+    public function testGetFigureFromPosition(): void
+    {
+        $position = new Position('A1');
+        $figure   = new King($position, Color::black());
+        $this->board->addFigure($figure);
+
+        $this->assertSame(
+            $figure,
+            $this->board->getFigureFromPosition($position)
+        );
+    }
+
+    public function testGetFigureFromPositionWithAnotherPosition(): void
+    {
+        $position1 = new Position('A1');
+        $position2 = new Position('A1');
+        $figure    = new King($position1, Color::black());
+        $this->board->addFigure($figure);
+
+        $this->assertSame(
+            $figure,
+            $this->board->getFigureFromPosition($position2)
+        );
+    }
+
     protected function setUp(): void
     {
         $this->board = new Board();

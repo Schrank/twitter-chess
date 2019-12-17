@@ -80,4 +80,13 @@ class Board
 
         return $board;
     }
+
+    public function getFigureFromPosition(Position $position): Figure
+    {
+        foreach ($this->figures as $figure) {
+            if ($figure->getPosition()->equals($position)) {
+                return $figure;
+            }
+        }
+    }
 }
