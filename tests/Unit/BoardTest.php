@@ -89,7 +89,11 @@ class BoardTest extends TestCase
 
         /** @noinspection UnusedFunctionResultInspection */
         $this->board->getFigureFromPosition($this->createMock(Position::class));
+    }
 
+    public function testToArray(): void
+    {
+        $this->markTestIncomplete('Implement toArray method which has all figures in it and white/black squares or maybe null?');
     }
 
     protected function setUp(): void
