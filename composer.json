@@ -29,5 +29,8 @@
     "platform": {
       "php": "7.4"
     }
+  },
+  "require": {
+    "hybridauth/hybridauth": "^3.1"
   }
 }
