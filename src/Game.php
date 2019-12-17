@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess;
 
+use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Figure\Bishop;
 use Schrank\TwitterChess\Figure\King;
 use Schrank\TwitterChess\Figure\Knight;
@@ -21,7 +22,7 @@ class Game
      */
     private array $initBoard
         = [
-            'white' =>
+            Color::WHITE =>
                 [
                     'A1' => Rook::class,
                     'B1' => Knight::class,
@@ -40,7 +41,7 @@ class Game
                     'G2' => Pawn::class,
                     'H2' => Pawn::class,
                 ],
-            'black' => [
+            Color::BLACK => [
                 'A8' => Rook::class,
                 'B8' => Knight::class,
                 'C8' => Bishop::class,
@@ -63,17 +64,18 @@ class Game
     public function __construct()
     {
         $this->board   = new Board();
-        $this->players = [Color::white(), Color::black()];
+        $this->players = [Color::WHITE => Color::white(), Color::BLACK => Color::black()];
+        $this->init();
     }
 
-    public function init(): void
+    private function init(): void
     {
-        $this->currentPlayer = $this->players[0];
+        $this->currentPlayer = $this->players[Color::WHITE];
         $board               = $this->getBoard();
         foreach ($this->initBoard as $color => $figures) {
             foreach ($figures as $pos => $figureClass) {
                 $board->addFigure(
-                    new $figureClass(new Position($pos), Color::$color())
+                    new $figureClass(new Position($pos), $this->players[$color])
                 );
             }
         }
@@ -81,8 +83,20 @@ class Game
 
     public function move(Position $oldPos, Position $newPos): void
     {
+        $figure = $this->board->getFigureFromPosition($oldPos);
+
+        if ($figure->getColor() !== $this->currentPlayer) {
+            throw new FigureDoesNotMatchPlayerException(
+                sprintf(
+                    'The figure %s is %s but the current player is %s.',
+                    $figure->getName(),
+                    $figure->getColor()->isWhite() ? 'white' : 'black',
+                    $this->currentPlayer->isWhite() ? 'white' : 'black'
+                )
+            );
+        }
+        $figure->move($newPos);
         $this->nextPlayer();
-        $this->board->getFigureFromPosition($oldPos)->move($newPos);
     }
 
     public function getBoard(): Board

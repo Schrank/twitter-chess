@@ -6,6 +6,7 @@ namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
+use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Position;
 
@@ -69,9 +70,14 @@ class GameTest extends TestCase
         $this->assertEquals(Color::black(), $this->game->getCurrentPlayer());
     }
 
+    public function testThrowsExceptionIfFigureIsNotFromCurrentPlayer()
+    {
+        $this->expectException(FigureDoesNotMatchPlayerException::class);
+        $this->game->move(new Position('B7'), new Position('B6'));
+    }
+
     protected function setUp(): void
     {
         $this->game = new Game();
-        $this->game->init();
     }
 }
