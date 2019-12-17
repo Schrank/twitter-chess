@@ -7,13 +7,13 @@ namespace Schrank\TwitterChess\Figure;
 use Generator;
 
 /**
- * @covers \Schrank\TwitterChess\Figure\King
+ * @covers \Schrank\TwitterChess\Figure\Bishop
  * @uses   \Schrank\TwitterChess\Position
  */
 class BishopTest extends AbstractFigureTest
 {
     protected static string $testedClass = Bishop::class;
-    protected static string $whiteIcon = '🏃🏼';
+    protected static string $whiteIcon = '🏃';
     protected static string $blackIcon = '🧝';
     protected static string $validMove = 'C5';
 

@@ -13,7 +13,7 @@ use Generator;
 class KingTest extends AbstractFigureTest
 {
     protected static string $testedClass = King::class;
-    protected static string $whiteIcon = '🤵🏼';
+    protected static string $whiteIcon = '🤵';
     protected static string $blackIcon = '🤴';
 
     public function validMoves(): Generator
