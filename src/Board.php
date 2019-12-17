@@ -59,6 +59,7 @@ class Board
      */
     public function toString(): array
     {
+        $position = [];
         foreach ($this->figures as $figure) {
             $position[$figure->getPosition()->getColumn()][$figure->getPosition()->getRow()] = $figure->getIcon();
         }
