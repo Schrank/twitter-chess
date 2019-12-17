@@ -62,7 +62,7 @@ class GameTest extends TestCase
         $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
     }
 
-    public function testPlayerChangesAfterMove()
+    public function testPlayerChangesAfterMove(): void
     {
         $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
         $this->game->move(new Position('B2'), new Position('B4'));

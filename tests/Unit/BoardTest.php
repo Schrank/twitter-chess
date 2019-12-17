@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess;
 
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Exception\EmptySquareException;
 use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 use Schrank\TwitterChess\Figure\King;
 
@@ -80,6 +81,15 @@ class BoardTest extends TestCase
             $figure,
             $this->board->getFigureFromPosition($position2)
         );
+    }
+
+    public function testGetFigureFromEmptySquare(): void
+    {
+        $this->expectException(EmptySquareException::class);
+
+        /** @noinspection UnusedFunctionResultInspection */
+        $this->board->getFigureFromPosition($this->createMock(Position::class));
+
     }
 
     protected function setUp(): void

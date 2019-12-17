@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess;
 
+use Schrank\TwitterChess\Exception\EmptySquareException;
 use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 
 /**
@@ -89,5 +90,6 @@ class Board
                 return $figure;
             }
         }
+        throw new EmptySquareException(sprintf('Square %s is empty.', $position->toString()));
     }
 }
