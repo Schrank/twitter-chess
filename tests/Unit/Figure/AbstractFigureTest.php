@@ -18,7 +18,7 @@ abstract class AbstractFigureTest extends TestCase
     protected static string $blackIcon;
     private Figure $figure;
     protected static string $startPositionString = 'D4';
-    protected static string $validMove = 'A5';
+    protected static string $validMove = 'D5';
     protected static string $invalidMove = 'H8';
     private Position $startPosition;
 

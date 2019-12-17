@@ -11,6 +11,7 @@ class KnightTest extends AbstractFigureTest
     protected static string $testedClass = Knight::class;
     protected static string $whiteIcon = '🦥';
     protected static string $blackIcon = '🐴';
+    protected static string $validMove = 'C6';
 
     public function validMoves(): Generator
     {
