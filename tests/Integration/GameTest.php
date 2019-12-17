@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Schrank\TwitterChess;
+namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Game;
 
 class GameTest extends TestCase
 {
@@ -12,20 +13,20 @@ class GameTest extends TestCase
     {
         $board = [
             '🗼🐴🧝🤴👸🧝🐴🗼',
-            '💂🏼💂💂️💂🏼‍💂🏼💂🏼‍💂🏼‍💂‍',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
+            '💂🏼💂🏼💂🏼💂🏼💂🏼💂🏼💂🏼💂🏼',
             '⬜⬛⬜⬛⬜⬛⬜⬛',
             '⬛⬜⬛⬜⬛⬜⬛⬜',
             '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '👮🏻‍👮🏻‍👮🏻👮🏻‍👮🏻‍👮🏻‍👮🏻‍👮🏻‍',
-            '🏰🦥🏃🏼‍🤵🏼👰🏼🏃️🦥🏰',
+            '⬛⬜⬛⬜⬛⬜⬛⬜',
+            '👮🏻👮🏻👮🏻👮🏻👮🏻👮🏻👮🏻👮🏻',
+            '🏰🦥🏃🏼🤵🏼👰🏼🏃🏼🦥🏰',
         ];
 
         $game = new Game();
-        #         $game->init();
+        $game->init();
         $this->assertSame(
             $board,
-            $game->getBoard()->toString();
-    );
+            $game->getBoard()->toString()
+        );
     }
 }
