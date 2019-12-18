@@ -81,13 +81,14 @@ class Board
         return $board;
     }
 
-    public function getFigureFromPosition(Position $position): Figure
+    public function getFigureFromPosition(Position $position): ?Figure
     {
         foreach ($this->figures as $figure) {
             if ($figure->getPosition()->equals($position)) {
                 return $figure;
             }
         }
-        throw new EmptySquareException(sprintf('Square %s is empty.', $position->toString()));
+
+        return null;
     }
 }

@@ -67,10 +67,10 @@ class BoardTest extends TestCase
 
     public function testGetFigureFromEmptySquare(): void
     {
-        $this->expectException(EmptySquareException::class);
+        $this->assertNull(
+            $this->board->getFigureFromPosition($this->createMock(Position::class))
+        );
 
-        /** @noinspection UnusedFunctionResultInspection */
-        $this->board->getFigureFromPosition($this->createMock(Position::class));
     }
 
     protected function setUp(): void

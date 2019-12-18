@@ -29,4 +29,9 @@ class Color
     {
         return $this->color === self::WHITE;
     }
+
+    public function toString(): string
+    {
+        return $this->isWhite() ? 'white' : 'black';
+    }
 }

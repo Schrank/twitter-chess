@@ -16,4 +16,10 @@ class ColorTest extends TestCase
         $color = Color::black();
         $this->assertFalse($color->isWhite());
     }
+
+    public function testToString()
+    {
+        $this->assertSame('white', Color::white()->toString());
+        $this->assertSame('black', Color::black()->toString());
+    }
 }
