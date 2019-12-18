@@ -9,7 +9,7 @@ interface Figure
     /**
      * @return Position[]
      */
-    public function getValidPositions(): array;
+    public function getValidPositions(Board $board): array;
 
     public function getPosition(): Position;
 
@@ -17,7 +17,7 @@ interface Figure
 
     public function getName(): string;
 
-    public function move(Position $position): void;
+    public function move(Position $position, Board $board): void;
 
     public function getColor(): Color;
 }

@@ -95,7 +95,7 @@ class Game
                 )
             );
         }
-        $figure->move($newPos);
+        $figure->move($newPos, $this->board);
         $this->nextPlayer();
     }
 

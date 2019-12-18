@@ -7,6 +7,7 @@ namespace Schrank\TwitterChess\Figure;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
@@ -16,27 +17,11 @@ abstract class AbstractFigureTest extends TestCase
     protected static string $testedClass;
     protected static string $whiteIcon;
     protected static string $blackIcon;
-    private Color $color;
-    private Figure $figure;
     protected static string $startPositionString = 'D4';
     protected static string $validMove = 'D5';
     protected static string $invalidMove = 'H8';
-
-    protected function setUp(): void
-    {
-        if (static::$testedClass === null) {
-            throw new RuntimeException('$testedClass must be implemented.');
-        }
-        if (static::$blackIcon === null) {
-            throw new RuntimeException('$blackIcon must be implemented.');
-        }
-        if (static::$whiteIcon === null) {
-            throw new RuntimeException('$whiteIcon must be implemented.');
-        }
-        $startPosition = new Position(static::$startPositionString);
-        $this->color   = Color::black();
-        $this->figure  = new static::$testedClass($startPosition, $this->color);
-    }
+    private Color $color;
+    private Figure $figure;
 
     abstract public function validMoves(): Generator;
 
@@ -49,7 +34,7 @@ abstract class AbstractFigureTest extends TestCase
         $figure    = new static::$testedClass(new Position($pos), Color::black());
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
-        }, $figure->getValidPositions());
+        }, $figure->getValidPositions($this->createMock(Board::class)));
 
         $this->assertEqualsCanonicalizing($expected, $positions);
     }
@@ -75,16 +60,32 @@ abstract class AbstractFigureTest extends TestCase
         $this->assertSame($expected, $this->figure->getName());
     }
 
-    public function testValidMove()
+    public function testValidMove(): void
     {
         $newPosition = new Position(static::$validMove);
         $oldPosition = $this->figure->getPosition();
-        $this->figure->move($newPosition);
+        $this->figure->move($newPosition, $this->createMock(Board::class));
         $this->assertNotEquals($oldPosition, $newPosition);
     }
 
-    public function testGetColor()
+    public function testGetColor(): void
     {
         $this->assertSame($this->color, $this->figure->getColor());
+    }
+
+    protected function setUp(): void
+    {
+        if (static::$testedClass === null) {
+            throw new RuntimeException('$testedClass must be implemented.');
+        }
+        if (static::$blackIcon === null) {
+            throw new RuntimeException('$blackIcon must be implemented.');
+        }
+        if (static::$whiteIcon === null) {
+            throw new RuntimeException('$whiteIcon must be implemented.');
+        }
+        $startPosition = new Position(static::$startPositionString);
+        $this->color   = Color::black();
+        $this->figure  = new static::$testedClass($startPosition, $this->color);
     }
 }

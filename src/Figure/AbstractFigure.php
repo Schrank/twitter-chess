@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use ReflectionClass;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 use Schrank\TwitterChess\Figure;
@@ -36,9 +37,9 @@ abstract class AbstractFigure implements Figure
         return $this->shortName;
     }
 
-    public function move(Position $position): void
+    public function move(Position $position, Board $board): void
     {
-        $valid = $this->isNewPositionValid($position);
+        $valid = $this->isNewPositionValid($position, $board);
 
         if (!$valid) {
             $this->throwInvalidMoveException($position);
@@ -58,10 +59,10 @@ abstract class AbstractFigure implements Figure
         );
     }
 
-    private function isNewPositionValid(Position $position): bool
+    private function isNewPositionValid(Position $position, Board $board): bool
     {
         $valid = false;
-        foreach ($this->getValidPositions() as $validPosition) {
+        foreach ($this->getValidPositions($board) as $validPosition) {
             if ($validPosition->equals($position)) {
                 $valid = true;
                 break;
