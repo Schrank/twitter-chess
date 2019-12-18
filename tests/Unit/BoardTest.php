@@ -16,40 +16,22 @@ class BoardTest extends TestCase
 
     public function testToString(): void
     {
-        $board = [
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-        ];
-        $this->assertSame($board, $this->board->toString());
+        $board = require 'assertions/boardEmpty.php';
+        $this->assertSame($board, $this->board->toArray());
     }
 
-    public function testAddFigure()
+    public function testAddFigure(): void
     {
-        $board  = [
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '🤴⬜⬛⬜⬛⬜⬛⬜',
-        ];
+        $board  = require 'assertions/boardWithKingOnA1.php';
         $figure = new King(new Position('A1'), Color::black());
         $this->board->addFigure($figure);
         $this->assertEquals(
             $board,
-            $this->board->toString()
+            $this->board->toArray()
         );
     }
 
-    public function testAddFigureOnSameSquare()
+    public function testAddFigureOnSameSquare(): void
     {
         $this->expectException(TwoFiguresOnSameSquare::class);
 
@@ -89,11 +71,6 @@ class BoardTest extends TestCase
 
         /** @noinspection UnusedFunctionResultInspection */
         $this->board->getFigureFromPosition($this->createMock(Position::class));
-    }
-
-    public function testToArray(): void
-    {
-        $this->markTestIncomplete('Implement toArray method which has all figures in it and white/black squares or maybe null?');
     }
 
     protected function setUp(): void

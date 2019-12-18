@@ -24,7 +24,7 @@
 <body class="text-center">
 <div class="container board">
     <?php $game = new \Schrank\TwitterChess\Game(); ?>
-    <?php foreach ($game->getBoard()->toString() as $line): ?>
+    <?php foreach ($game->getBoard()->toArray() as $line): ?>
         <div class="row">
             <?php foreach (mb_str_split($line, 1, 'utf-8') as $square): ?>
                 <div class="col square"><?= $square ?></div>

@@ -5,27 +5,23 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Position;
 
+/**
+ * @uses   Board
+ * @covers Game
+ */
 class GameTest extends TestCase
 {
     private Game $game;
 
     public function testNewGame(): void
     {
-        $board = [
-            '🗼🐴🧝🤴👸🧝🐴🗼',
-            '💂💂💂💂💂💂💂💂',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '👮👮👮👮👮👮👮👮',
-            '🏰🦥🏃🤵👰🏃🦥🏰',
-        ];
+        $board = require 'assertions/boardAtStart.php';
 
         $this->validateBoardState($board);
     }
@@ -35,24 +31,12 @@ class GameTest extends TestCase
      */
     private function validateBoardState(array $board): void
     {
-        $this->assertSame(
-            $board,
-            $this->game->getBoard()->toString()
-        );
+        $this->assertSame($board, $this->game->getBoard()->toArray());
     }
 
     public function testMove(): void
     {
-        $board = [
-            '🗼🐴🧝🤴👸🧝🐴🗼',
-            '💂💂💂💂💂💂💂💂',
-            '⬜⬛⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '⬜👮⬜⬛⬜⬛⬜⬛',
-            '⬛⬜⬛⬜⬛⬜⬛⬜',
-            '👮⬛👮👮👮👮👮👮',
-            '🏰🦥🏃🤵👰🏃🦥🏰',
-        ];
+        $board = require 'assertions/boardAfterMove.php';
 
         $this->game->move(new Position('B2'), new Position('B4'));
         $this->validateBoardState($board);

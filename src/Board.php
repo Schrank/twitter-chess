@@ -58,7 +58,7 @@ class Board
     /**
      * @return string[]
      */
-    public function toString(): array
+    public function toArray(): array
     {
         $position = [];
         foreach ($this->figures as $figure) {
@@ -67,17 +67,15 @@ class Board
         $board = [];
         $white = true;
         for ($row = 8; $row >= 1; $row--) {
-            $boardRow = '';
             for ($column = 1; $column <= 8; $column++) {
                 if (isset($position[$column][$row])) {
-                    $boardRow .= $position[$column][$row];
+                    $board[] = $position[$column][$row];
                 } else {
-                    $boardRow .= $white ? '⬜' : '⬛';
+                    $board[] = $white ? '⬜' : '⬛';
                 }
                 $white = !$white;
             }
-            $white   = !$white;
-            $board[] = $boardRow;
+            $white = !$white;
         }
 
         return $board;

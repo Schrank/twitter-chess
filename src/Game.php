@@ -17,30 +17,30 @@ class Game
     private array $players;
     private Color $currentPlayer;
     private Board $board;
+
     /**
      * @var string[]
      */
     private array $initBoard
         = [
-            Color::WHITE =>
-                [
-                    'A1' => Rook::class,
-                    'B1' => Knight::class,
-                    'C1' => Bishop::class,
-                    'D1' => King::class,
-                    'E1' => Queen::class,
-                    'F1' => Bishop::class,
-                    'G1' => Knight::class,
-                    'H1' => Rook::class,
-                    'A2' => Pawn::class,
-                    'B2' => Pawn::class,
-                    'C2' => Pawn::class,
-                    'D2' => Pawn::class,
-                    'E2' => Pawn::class,
-                    'F2' => Pawn::class,
-                    'G2' => Pawn::class,
-                    'H2' => Pawn::class,
-                ],
+            Color::WHITE => [
+                'A1' => Rook::class,
+                'B1' => Knight::class,
+                'C1' => Bishop::class,
+                'D1' => King::class,
+                'E1' => Queen::class,
+                'F1' => Bishop::class,
+                'G1' => Knight::class,
+                'H1' => Rook::class,
+                'A2' => Pawn::class,
+                'B2' => Pawn::class,
+                'C2' => Pawn::class,
+                'D2' => Pawn::class,
+                'E2' => Pawn::class,
+                'F2' => Pawn::class,
+                'G2' => Pawn::class,
+                'H2' => Pawn::class,
+            ],
             Color::BLACK => [
                 'A8' => Rook::class,
                 'B8' => Knight::class,
