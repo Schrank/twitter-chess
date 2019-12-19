@@ -4,6 +4,7 @@
   "type": "project",
   "prefer-stable": true,
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^8.0",
     "phpstan/phpstan": "^0.7"
   },
@@ -31,7 +32,8 @@
     }
   },
   "require": {
+    "ext-json": "*",
     "hybridauth/hybridauth": "^3.1",
-    "ext-json": "*"
+    "ramsey/uuid": "^3.9"
   }
 }
