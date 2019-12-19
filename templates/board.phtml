@@ -26,14 +26,15 @@
         buildBoard(board);
         $('.board').on('click touch', function (event) {
             let elem = $(event.target);
-            if ($('.active') && elem.hasClass('tc-empty')) {
+            let activeSquare = $('.active');
+            if (activeSquare && elem.hasClass('tc-empty')) {
                 $.ajax('/api/move/')
             }
 
             if (elem.text() === '⬛' || elem.text() === '⬜') {
                 return;
             }
-            $('.active').removeClass('active');
+            activeSquare.removeClass('active');
             elem.toggleClass('active');
         });
     });
