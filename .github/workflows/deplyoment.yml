@@ -29,6 +29,23 @@ jobs:
       - name: PHPUnit
         run: vendor/bin/phpunit tests
 
+  deployment:
+    needs: phpunit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl
+          coverage: xdebug
+
+      - name: Install dependencies
+        run: composer.phar install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
+
       - name: rsync deployment to uberspace
         uses: burnett01/rsync-deployments@2.0
         with:
