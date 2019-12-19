@@ -31,6 +31,7 @@
     }
   },
   "require": {
-    "hybridauth/hybridauth": "^3.1"
+    "hybridauth/hybridauth": "^3.1",
+    "ext-json": "*"
   }
 }
