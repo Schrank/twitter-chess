@@ -1,25 +1,49 @@
+<?php declare(strict_types=1); ?>
+<?php
+
+use Ramsey\Uuid\Uuid;
+use Schrank\TwitterChess\Game;
+
+?>
+
 <div class="container board"></div>
 <script>
-    <?php $game = (new \Schrank\TwitterChess\Game()); ?>
-    let board = <?= json_encode($game->getBoard()->toArray(), JSON_THROW_ON_ERROR, 512) ?>;
+    <?php $game = (new Game()); ?>
+    const board = <?= json_encode($game->getBoard()->toArray(), JSON_THROW_ON_ERROR, 512) ?>;
+    const id = <?= json_encode(Uuid::uuid5(Uuid::NAMESPACE_DNS, $_SERVER['SERVER_NAME']), JSON_THROW_ON_ERROR, 512)?>;
 
     function buildBoard(board) {
         let i = 0;
         const emptySquares = ['⬛', '⬜'];
         const insertIntoBoard = document.createDocumentFragment();
         let currentRow;
+        let column = 'A';
+        let row = 8;
         board.forEach(square => {
-            if (i++ % 8 === 0) {
+            if (i % 8 === 0) {
                 currentRow = document.createElement('div');
                 currentRow.className = 'row';
                 insertIntoBoard.appendChild(currentRow);
             }
             let squareElement = document.createElement('div');
+            squareElement.id = column + row.toString(10);
             squareElement.textContent = square;
             squareElement.className = emptySquares.indexOf(square) !== -1 ? 'tc-empty' : 'tc-figure';
             currentRow.appendChild(squareElement);
+            column = nextChar(column);
+            if (i % 8 === 7) {
+                row--;
+                column = 'A';
+            }
+            i++;
         });
-        document.querySelectorAll('.board')[0].appendChild(insertIntoBoard);
+        let boardElement = document.querySelectorAll('.board')[0];
+        boardElement.textContent = '';
+        boardElement.appendChild(insertIntoBoard);
+    }
+
+    function nextChar(c) {
+        return String.fromCharCode(c.charCodeAt(0) + 1);
     }
 
     $(function () {
@@ -28,7 +52,21 @@
             let elem = $(event.target);
             let activeSquare = $('.active');
             if (activeSquare && elem.hasClass('tc-empty')) {
-                $.ajax('/api/move/')
+                $.ajax('/api/move/', {
+                    method: 'post',
+                    data: {
+                        from: activeSquare.attr('id'),
+                        to: elem.attr('id'),
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: (response) => {
+                        buildBoard(response);
+                    },
+                    error: (response) => {
+                        alert(response.error);
+                    }
+                });
             }
 
             if (elem.text() === '⬛' || elem.text() === '⬜') {
