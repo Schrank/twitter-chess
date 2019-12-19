@@ -1,0 +1,41 @@
+name: Unit tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl
+          coverage: xdebug
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit tests
+
+      - name: rsync deployment to uberspace
+        uses: burnett01/rsync-deployments@2.0
+        with:
+          switches: -avzr --delete --exclude=".git"
+          path: ./
+          remote_path: /home/twitches/twitter-chess
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
