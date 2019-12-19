@@ -1,41 +1,35 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Play chess with other twitter users">
-    <meta name="author" content="Fabian Blechschmidt">
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    <title>Twitter Chess</title>
-
-    <!-- Custom styles for this template -->
-    <link href="main.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
-<body class="text-center">
-<div class="container board">
-    <?php $game = new \Schrank\TwitterChess\Game(); ?>
-    <?php foreach ($game->getBoard()->toArray() as $line): ?>
-        <div class="row">
-            <?php foreach (mb_str_split($line, 1, 'utf-8') as $square): ?>
-                <div class="col square"><?= $square ?></div>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
-</div>
+<div class="container board"></div>
 <script>
+    <?php $game = (new \Schrank\TwitterChess\Game()); ?>
+    let board = <?= json_encode($game->getBoard()->toArray(), JSON_THROW_ON_ERROR, 512) ?>;
+
+    function buildBoard(board) {
+        let i = 0;
+        const emptySquares = ['⬛', '⬜'];
+        const insertIntoBoard = document.createDocumentFragment();
+        let currentRow;
+        board.forEach(square => {
+            if (i++ % 8 === 0) {
+                currentRow = document.createElement('div');
+                currentRow.className = 'row';
+                insertIntoBoard.appendChild(currentRow);
+            }
+            let squareElement = document.createElement('div');
+            squareElement.textContent = square;
+            squareElement.className = emptySquares.indexOf(square) !== -1 ? 'tc-empty' : 'tc-figure';
+            currentRow.appendChild(squareElement);
+        });
+        document.querySelectorAll('.board')[0].appendChild(insertIntoBoard);
+    }
+
     $(function () {
-        $('.square').on('click touch', function (event) {
+        buildBoard(board);
+        $('.board').on('click touch', function (event) {
             let elem = $(event.target);
+            if ($('.active') && elem.hasClass('tc-empty')) {
+                $.ajax('/api/move/')
+            }
+
             if (elem.text() === '⬛' || elem.text() === '⬜') {
                 return;
             }
@@ -44,6 +38,3 @@
         });
     });
 </script>
-</body>
-</html>
-
