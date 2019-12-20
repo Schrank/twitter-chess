@@ -7,6 +7,7 @@ namespace Schrank\TwitterChess\Web;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Exception\GameNotFoundException;
 use Schrank\TwitterChess\Game\Persister;
 use Schrank\TwitterChess\Game\Serializer;
 
@@ -47,7 +48,30 @@ class ApiTest extends TestCase
         $this->persiter->method('load')->with($id);
         $this->serializer->method('unserialize')->willReturn($gameMock);
         $this->assertSame($newBoard, $this->api->load($id));
+    }
 
+    public function testReturnsNewGameIfNotFound()
+    {
+        $this->persiter->method('load')->willThrowException(new GameNotFoundException());
+        $this->persiter->expects($this->once())->method('save');
+        $this->assertSame(
+            $this->getNewGameArray(),
+            $this->api->load(uniqid('', true))
+        );
+    }
+
+    private function getNewGameArray(): array
+    {
+        return [
+            '🗼', '🐴','🧝','🤴','👸','🧝','🐴','🗼',
+            '💂','💂','💂','💂','💂','💂','💂','💂',
+            '⬜','⬛','⬜','⬛','⬜','⬛','⬜','⬛',
+            '⬛','⬜','⬛','⬜','⬛','⬜','⬛','⬜',
+            '⬜','⬛','⬜','⬛','⬜','⬛','⬜','⬛',
+            '⬛','⬜','⬛','⬜','⬛','⬜','⬛','⬜',
+            '👮','👮','👮','👮','👮','👮','👮','👮',
+            '🏰','🦥','🏃','🤵','👰','🏃','🦥','🏰',
+        ];
     }
 
     protected function setUp(): void

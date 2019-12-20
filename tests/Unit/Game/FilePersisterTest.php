@@ -120,3 +120,8 @@ function file_exists($filename): bool
 
     return FilePersisterTest::$fileExistsReturn;
 }
+
+function mkdir($pathname)
+{
+    // do nothing
+}
