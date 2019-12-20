@@ -21,7 +21,7 @@ class Serializer
         $current = Color::{$data['currentPlayer']}();
         $second  = $current->isWhite() ? Color::black() : Color::white();
 
-        return new Chess('', $board, $current, $second);
+        return new Chess($data['id'], $board, $current, $second);
     }
 
     /**

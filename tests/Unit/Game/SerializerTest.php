@@ -18,21 +18,19 @@ class SerializerTest extends TestCase
     public function testCurrentPlayerAfterUnserialize(): void
     {
         $currentPlayer = Color::BLACK;
-        $data          = json_encode([
-            'board'         => [
-                'A1' => '🏰',
-                'H5' => '🦥',
-                'B6' => '🏃',
-                'A2' => '🏃',
-                'F5' => '🦥',
-                'C3' => '🏰',
-            ],
-            'currentPlayer' => $currentPlayer,
-            'id'            => uniqid('', true)
-        ], JSON_THROW_ON_ERROR, 512);
+        $data          = $this->getSerializedData($currentPlayer, uniqid('', true));
 
         $game = $this->serializer->unserialize($data);
         $this->assertSame($currentPlayer, $game->getCurrentPlayer()->toString());
+    }
+
+    public function testIdAfterUnserialize(): void
+    {
+        $id   = uniqid('', true);
+        $data = $this->getSerializedData(Color::BLACK, $id);
+
+        $game = $this->serializer->unserialize($data);
+        $this->assertSame($id, $game->getId());
     }
 
     public function testThrowsExceptionIfJsonDoesNotContainBoard(): void
@@ -88,6 +86,29 @@ class SerializerTest extends TestCase
     protected function setUp(): void
     {
         $this->serializer = new Serializer();
+    }
+
+    /**
+     * @param string $currentPlayer
+     *
+     * @return false|string
+     */
+    private function getSerializedData(string $currentPlayer, string $id)
+    {
+        $data = json_encode([
+            'board'         => [
+                'A1' => '🏰',
+                'H5' => '🦥',
+                'B6' => '🏃',
+                'A2' => '🏃',
+                'F5' => '🦥',
+                'C3' => '🏰',
+            ],
+            'currentPlayer' => $currentPlayer,
+            'id'            => $id,
+        ], JSON_THROW_ON_ERROR, 512);
+
+        return $data;
     }
 
 }
