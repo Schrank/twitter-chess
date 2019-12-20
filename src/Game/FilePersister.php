@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Game;
 
 use Schrank\TwitterChess\Chess;
-use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 use Schrank\TwitterChess\Game;
 
@@ -34,32 +33,11 @@ class FilePersister implements Persister
         if (file_exists($saveGamePath)) {
             $lines    = file($saveGamePath);
             $lastLine = array_pop($lines);
-            try {
-                $gameData = json_decode($lastLine, true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
-                throw new InvalidJsonDataException('Json serialized data are invalid.', 0, $e);
-            }
 
-            $this->validateData($gameData);
+
+
         }
 
         return new Chess($id);
-    }
-
-    /**
-     * @param string[] $gameData
-     */
-    private function validateData(array $gameData): void
-    {
-        if (!isset($gameData['board'])) {
-            throw new InvalidJsonDataException('Json serialized data does not contain board data.');
-        }
-        if (!isset($gameData['currentPlayer'])
-            || !in_array($gameData['currentPlayer'], [Color::WHITE, Color::BLACK], true)) {
-            throw new InvalidJsonDataException('Json serialized data does not contain current player.');
-        }
-        if (!isset($gameData['id'])) {
-            throw new InvalidJsonDataException('Json serialized data does not contain game id.');
-        }
     }
 }

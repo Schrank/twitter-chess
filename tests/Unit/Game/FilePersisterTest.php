@@ -57,56 +57,6 @@ class FilePersisterTest extends TestCase
         $this->persister->save($game);
     }
 
-    public function testThrowsExceptionIfJsonDoesNotContainBoard(): void
-    {
-        $this->expectException(InvalidJsonDataException::class);
-        $this->expectExceptionMessage('Json serialized data does not contain board data.');
-        self::$fileExistsReturn = true;
-        self::$fileReturn       = ['[]'];
-
-        $this->persister->load('abc');
-    }
-
-    public function testThrowsExceptionIfJsonDoesNotContainCurrentPlayer(): void
-    {
-        $this->expectException(InvalidJsonDataException::class);
-        $this->expectExceptionMessage('Json serialized data does not contain current player.');
-        self::$fileExistsReturn = true;
-        self::$fileReturn       = ['{"board":"lala"}'];
-
-        $this->persister->load('abc');
-    }
-
-    public function testThrowsExceptionIfCurrentPlayerIsNeitherWhiteNorBlack(): void
-    {
-        $this->expectException(InvalidJsonDataException::class);
-        $this->expectExceptionMessage('Json serialized data does not contain current player.');
-        self::$fileExistsReturn = true;
-        self::$fileReturn       = ['{"board":"lala","currentPlayer":"grey"}'];
-
-        $this->persister->load('abc');
-    }
-
-    public function testThrowsExceptionIfJsonDoesNotContainId(): void
-    {
-        $this->expectException(InvalidJsonDataException::class);
-        $this->expectExceptionMessage('Json serialized data does not contain game id.');
-        self::$fileExistsReturn = true;
-        self::$fileReturn       = ['{"board":"lala","currentPlayer":"white"}'];
-
-        $this->persister->load('abc');
-    }
-
-    public function testThrowsExceptionIfJsonIsInvalid(): void
-    {
-        $this->expectException(InvalidJsonDataException::class);
-        $this->expectExceptionMessage('Json serialized data are invalid.');
-        self::$fileExistsReturn = true;
-        self::$fileReturn       = ['d'];
-
-        $this->persister->load('abc');
-    }
-
     public function testLoadReturnsLastEntryFromFile(): void
     {
         $this->markTestIncomplete();
