@@ -2,18 +2,26 @@
 
 declare(strict_types=1);
 
+use Schrank\TwitterChess\Game\FilePersister;
+use Schrank\TwitterChess\Game\Serializer;
+use Schrank\TwitterChess\Web\Api;
+
 require '../vendor/autoload.php';
 
 if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js)$/', $_SERVER['REQUEST_URI'])) {
     return false; // Liefere die angefragte Ressource direkt aus
 }
 
-if (strpos($_SERVER['REQUEST_URI'], '/api/') === 0) {
-//    $api = new Api();
-//    $api->sendResponse();
+if (strpos($_SERVER['REQUEST_URI'], '/api/move') === 0) {
+    $api = new Api(new FilePersister(), new Serializer());
+    echo json_encode($api->move($_POST['from'], $_POST['to'], $_POST['id']), JSON_THROW_ON_ERROR, 512);
 
-    echo '["\ud83d\udc34","\ud83e\udddd","\ud83e\udd34","\ud83d\udc78","\ud83e\udddd","\ud83d\udc34","\ud83d\uddfc","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\ud83d\udc82","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\u2b1b","\u2b1c","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83d\udc6e","\ud83e\udda5","\ud83d\uddfc","\ud83c\udff0","\ud83c\udfc3","\ud83e\udd35","\ud83d\udc70","\ud83c\udfc3","\ud83e\udda5","\ud83c\udff0"]';
+    return;
+}
 
+if (strpos($_SERVER['REQUEST_URI'], '/api/load') === 0) {
+    $api = new Api(new FilePersister(), new Serializer());
+    echo json_encode($api->load($_POST['id']), JSON_THROW_ON_ERROR, 512);
 
     return;
 }

@@ -38,4 +38,13 @@ class Api
         return $game->getBoard()->toArray();
     }
 
+    public function load(string $id): array
+    {
+        $json = $this->persister->load($id);
+        /** @var Chess $game */
+        $game = $this->serializer->unserialize($json);
+
+        return $game->getBoard()->toArray();
+    }
+
 }

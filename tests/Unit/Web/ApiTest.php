@@ -29,9 +29,25 @@ class ApiTest extends TestCase
         $boardMock->method('toArray')->willReturn($newBoard);
         $gameMock->method('getBoard')->willReturn($boardMock);
 
+        $this->persiter->expects($this->once())->method('load')->with($id);
+        $this->serializer->expects($this->once())->method('unserialize')->willReturn($gameMock);
+        $this->assertSame($newBoard, $this->api->move($from, $to, $id));
+    }
+
+    public function testLoad()
+    {
+        $id = uniqid('', true);
+
+        $gameMock  = $this->createMock(Chess::class);
+        $boardMock = $this->createMock(Board::class);
+        $newBoard  = ['BOARD'];
+        $boardMock->expects($this->once())->method('toArray')->willReturn($newBoard);
+        $gameMock->expects($this->once())->method('getBoard')->willReturn($boardMock);
+
         $this->persiter->method('load')->with($id);
         $this->serializer->method('unserialize')->willReturn($gameMock);
-        $this->assertSame($newBoard, $this->api->move($from, $to, $id));
+        $this->assertSame($newBoard, $this->api->load($id));
+
     }
 
     protected function setUp(): void
