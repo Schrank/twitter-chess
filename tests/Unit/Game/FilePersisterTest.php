@@ -7,6 +7,7 @@ namespace Schrank\TwitterChess\Game;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 
 class FilePersisterTest extends TestCase
 {
@@ -57,14 +58,44 @@ class FilePersisterTest extends TestCase
         $this->persister->save($game);
     }
 
+    public function testThrowsExceptionIfJsonDoesNotContainBoard(): void
+    {
+        $this->expectException(InvalidJsonDataException::class);
+        $this->expectExceptionMessage('Json serialized data does not contain board data.');
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = ['[]'];
+
+        $this->persister->load('abc');
+    }
+
+    public function testThrowsExceptionIfJsonIsInvalid(): void
+    {
+        $this->expectException(InvalidJsonDataException::class);
+        $this->expectExceptionMessage('Json serialized data are invalid.');
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = ['d'];
+
+        $this->persister->load('abc');
+    }
+
     public function testLoadReturnsLastEntryFromFile(): void
     {
-        $this->markTestIncomplete('Implement me.');
+        $this->markTestIncomplete();
 
         return;
+
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = [
+            'a',
+            'b',
+            'c'
+        ];
+
         $id   = 'abc';
         $game = $this->persister->load($id);
 
+        $this->assertStringEndsWith("games/$id.game", self::$fileExistsFilename);
+        $this->assertStringEndsWith("games/$id.game", self::$fileFilename);
     }
 
     public function testReturnsNewGameIfNotFound(): void
@@ -121,6 +152,3 @@ function file_exists($filename): bool
 
     return FilePersisterTest::$fileExistsReturn;
 }
-
-
-
