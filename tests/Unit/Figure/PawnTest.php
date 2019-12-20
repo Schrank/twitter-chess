@@ -6,7 +6,7 @@ namespace Schrank\TwitterChess\Figure;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
@@ -25,7 +25,7 @@ class PawnTest extends TestCase
         $figure    = new Pawn(new Position($pos), $color);
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
-        }, $figure->getValidPositions($this->createMock(Board::class)));
+        }, $figure->getValidPositions($this->createMock(ChessBoard::class)));
 
         $this->assertEqualsCanonicalizing($expected, $positions);
     }

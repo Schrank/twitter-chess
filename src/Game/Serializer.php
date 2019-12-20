@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Game;
 
-use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
@@ -16,7 +16,7 @@ class Serializer
     {
         $data = $this->decode($json);
         $this->validateData($data);
-        $board = new Board();
+        $board = new ChessBoard();
         /** @var Color $current */
         $current = Color::{$data['currentPlayer']}();
         $second  = $current->isWhite() ? Color::black() : Color::white();

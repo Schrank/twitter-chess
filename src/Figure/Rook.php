@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Exception\InvalidPositionException;
 use Schrank\TwitterChess\Position;
 

@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Exception\EmptySquareException;
 use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 use Schrank\TwitterChess\Figure\King;
 
 /**
- * @covers \Schrank\TwitterChess\Board
+ * @covers \Schrank\TwitterChess\ChessBoard
  */
-class BoardTest extends TestCase
+class ChessBoardTest extends TestCase
 {
 
-    private Board $board;
+    private ChessBoard $board;
 
     public function testToString(): void
     {
@@ -99,7 +98,7 @@ class BoardTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->board = new Board();
+        $this->board = new ChessBoard();
     }
 
     /**

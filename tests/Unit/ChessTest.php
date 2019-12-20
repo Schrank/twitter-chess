@@ -14,7 +14,7 @@ class ChessTest extends TestCase
 {
     private Chess $game;
     private string $id;
-    private Board $board;
+    private ChessBoard $board;
     private Color $currentPlayer;
     private Color $secondPlayer;
 
@@ -55,7 +55,7 @@ class ChessTest extends TestCase
     protected function setUp(): void
     {
         $this->id            = uniqid('', true);
-        $this->board         = $this->createMock(Board::class);
+        $this->board         = $this->createMock(ChessBoard::class);
         $this->currentPlayer = Color::black();
         $this->secondPlayer  = Color::white();
         $this->game          = new Chess($this->id, $this->board, $this->currentPlayer, $this->secondPlayer);

@@ -6,6 +6,7 @@ namespace Schrank\TwitterChess\Figure;
 
 use ReflectionClass;
 use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 use Schrank\TwitterChess\Figure;

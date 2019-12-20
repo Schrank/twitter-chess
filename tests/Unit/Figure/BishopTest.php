@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Generator;
-use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
@@ -29,7 +29,7 @@ class BishopTest extends AbstractFigureTest
     public function testGetValidPositionsWithBlockingOfSameColor(): void
     {
         $expected = ['C3', 'B2', 'A1', 'E3', 'F2', 'G1', 'E5', 'F6', 'G7', 'H8'];
-        $board    = new Board();
+        $board    = new ChessBoard();
 
         $wayBlockingFigureSameColor = $this->createMock(Figure::class);
         $wayBlockingFigureSameColor->method('getPosition')

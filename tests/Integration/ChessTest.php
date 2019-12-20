@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
@@ -14,7 +14,7 @@ use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Position;
 
 /**
- * @uses   Board
+ * @uses   ChessBoard
  * @covers Chess
  */
 class ChessTest extends TestCase
@@ -67,7 +67,7 @@ class ChessTest extends TestCase
         $current = Color::white();
         $second  = Color::black();
 
-        $board = new Board();
+        $board = new ChessBoard();
         $board->addFigure(new Pawn(new Position('B2'), $current));
         $game = new Chess('123', $board, $current, $second);
 
@@ -81,7 +81,7 @@ class ChessTest extends TestCase
         $this->expectException(InvalidGameConfigurationException::class);
         $this->expectExceptionMessage('If you pass a board, you need to pass two players as well.');
 
-        new Chess('', $this->createMock(Board::class));
+        new Chess('', $this->createMock(ChessBoard::class));
     }
 
     public function testThrowsExceptionIfPlayersWithoutBoardIsPassed(): void
@@ -96,7 +96,7 @@ class ChessTest extends TestCase
     {
         $this->expectException(InvalidGameConfigurationException::class);
 
-        new Chess('', $this->createMock(Board::class), $this->createMock(Color::class));
+        new Chess('', $this->createMock(ChessBoard::class), $this->createMock(Color::class));
     }
 
     protected function setUp(): void

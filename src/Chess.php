@@ -22,7 +22,7 @@ class Chess implements JsonSerializable, Game
      */
     private array $players;
     private Color $currentPlayer;
-    private Board $board;
+    private ChessBoard $board;
     private string $id;
 
     /**
@@ -110,7 +110,7 @@ class Chess implements JsonSerializable, Game
     private function initBoard(?Board $board): void
     {
         if ($board === null) {
-            $this->board = new Board();
+            $this->board = new ChessBoard();
         } else {
             $this->board = $board;
 
