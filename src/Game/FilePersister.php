@@ -13,6 +13,12 @@ class FilePersister implements Persister
 
     public function save(string $id, string $game): void
     {
+        // todo test directory creation
+        $directory = dirname(self::SAVE_GAME_PATH);
+        if (!mkdir($directory) && !is_dir($directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+
         $return = file_put_contents(
             sprintf(self::SAVE_GAME_PATH, $id),
             $game,
