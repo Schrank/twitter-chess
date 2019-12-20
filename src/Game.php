@@ -13,6 +13,4 @@ interface Game
     public function getCurrentPlayer(): Color;
 
     public function getId(): string;
-
-    public static function fromJson($jsonString): string;
 }

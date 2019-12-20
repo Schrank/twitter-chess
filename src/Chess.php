@@ -80,11 +80,6 @@ class Chess implements \JsonSerializable, Game
         $this->id = $id;
     }
 
-    public static function fromJson($jsonString): string
-    {
-
-    }
-
     private function init(): void
     {
         $board = $this->getBoard();
