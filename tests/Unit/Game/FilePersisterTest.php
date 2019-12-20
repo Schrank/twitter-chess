@@ -12,7 +12,7 @@ class FilePersisterTest extends TestCase
     public static string $filename = '';
     public static string $data;
     public static int $flags;
-    public static int $filePutContentsReturn;
+    public static $filePutContentsReturn;
     private FilePersister $persister;
 
     public function testImplementsPersister(): void
@@ -37,9 +37,17 @@ class FilePersisterTest extends TestCase
         $this->assertSame(self::$flags, FILE_APPEND);
     }
 
-    public function testThrowsErrorOnFalseSave()
+    public function testThrowsErrorOnFalseSave(): void
     {
+        $id = 'abc';
 
+        $this->expectException(\RuntimeException::class);
+        self::$filePutContentsReturn = false;
+        $this->expectExceptionMessage("Game \"$id\" could not be saved.");
+
+        $game = $this->createMock(Game::class);
+        $game->method('getId')->willReturn($id);
+        $this->persister->save($game);
     }
 
     protected function setUp(): void
@@ -60,7 +68,7 @@ function file_put_contents(
     string $filename,
     $data,
     /** @noinspection PhpOptionalBeforeRequiredParametersInspection */ int $flags = 0
-): int {
+) {
     FilePersisterTest::$data     = $data;
     FilePersisterTest::$filename = $filename;
     FilePersisterTest::$flags    = $flags;
