@@ -14,18 +14,10 @@
             <directory>Integration</directory>
         </testsuite>
     </testsuites>
-    <!---->
-    <!--    <filter>-->
-    <!--        <whitelist processUncoveredFilesFromWhitelist="true">-->
-    <!--            <directory suffix=".php">src</directory>-->
-    <!--            <exclude>-->
-    <!--                <file>src/Framework/Assert/Functions.php</file>-->
-    <!--                <file>src/Util/PHP/eval-stdin.php</file>-->
-    <!--            </exclude>-->
-    <!--        </whitelist>-->
-    <!--    </filter>-->
-    <!---->
-    <!--    <php>-->
-    <!--        <const name="PHPUNIT_TESTSUITE" value="true"/>-->
-    <!--    </php>-->
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

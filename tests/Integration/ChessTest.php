@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
@@ -14,8 +14,8 @@ use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Position;
 
 /**
- * @uses   ChessBoard
- * @covers Chess
+ * @covers \Schrank\TwitterChess\Chess
+ * @uses   \Schrank\TwitterChess\ChessBoard
  */
 class ChessTest extends TestCase
 {

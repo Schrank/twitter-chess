@@ -50,7 +50,7 @@ class SerializerTest extends TestCase
         $this->assertSame($id, $game->getId());
     }
 
-    public function testFiguresAfterUnserialize():void
+    public function testFiguresAfterUnserialize(): void
     {
         $board = [
             'A1' => '🏰',
