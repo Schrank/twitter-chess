@@ -67,6 +67,15 @@ class FilePersisterTest extends TestCase
 
         $this->persister->load('abc');
     }
+    public function testThrowsExceptionIfJsonDoesNotContainCurrentPlayer(): void
+    {
+        $this->expectException(InvalidJsonDataException::class);
+        $this->expectExceptionMessage('Json serialized data does not contain current player.');
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = ['{"board":"lala"}'];
+
+        $this->persister->load('abc');
+    }
 
     public function testThrowsExceptionIfJsonIsInvalid(): void
     {

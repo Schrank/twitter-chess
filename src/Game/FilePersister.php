@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Game;
 
 use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 use Schrank\TwitterChess\Game;
 
@@ -52,6 +53,10 @@ class FilePersister implements Persister
     {
         if (!isset($gameData['board'])) {
             throw new InvalidJsonDataException('Json serialized data does not contain board data.');
+        }
+        if (!isset($gameData['currentPlayer'])
+            || !in_array($gameData['currentPlayer'], [Color::WHITE, Color::BLACK], true)) {
+            throw new InvalidJsonDataException('Json serialized data does not contain current player.');
         }
     }
 }
