@@ -46,6 +46,5 @@ class Rook extends AbstractFigure
         }
 
         return '🗼';
-
     }
 }

@@ -6,10 +6,10 @@ namespace Schrank\TwitterChess\Game;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Exception\GameNotFoundException;
 
 /**
- * @covers \Schrank\TwitterChess\Game\FilePersisterTest
+ * @covers \Schrank\TwitterChess\Game\FilePersister
  */
 class FilePersisterTest extends TestCase
 {
@@ -31,16 +31,12 @@ class FilePersisterTest extends TestCase
 
     public function testSave(): void
     {
-        $content = 'A';
-        $id      = uniqid('', true);
-        $game    = $this->createMock(Chess::class);
+        $id   = uniqid('', true);
+        $game = 'game_data';
 
-        $game->method('jsonSerialize')->willReturn($content);
-        $game->method('getId')->willReturn($id);
+        $this->persister->save($id, $game);
 
-        $this->persister->save($game);
-
-        $this->assertSame($content, self::$filePutContentsdata);
+        $this->assertSame($game, self::$filePutContentsdata);
         $this->assertStringEndsWith('.game', self::$filePutContentsfilename);
         $this->assertStringEndsNotWith('.game.game', self::$filePutContentsfilename);
         $this->assertSame(self::$filePutContentsflags, FILE_APPEND);
@@ -48,23 +44,18 @@ class FilePersisterTest extends TestCase
 
     public function testThrowsErrorOnFalseSave(): void
     {
-        $id = 'abc';
+        $id   = 'abc';
+        $game = 'game_data';
 
         $this->expectException(RuntimeException::class);
         self::$filePutContentsReturn = false;
         $this->expectExceptionMessage("Chess \"$id\" could not be saved.");
 
-        $game = $this->createMock(Chess::class);
-        $game->method('getId')->willReturn($id);
-        $this->persister->save($game);
+        $this->persister->save($id, $game);
     }
 
     public function testLoadReturnsLastEntryFromFile(): void
     {
-        $this->markTestIncomplete();
-
-        return;
-
         self::$fileExistsReturn = true;
         self::$fileReturn       = [
             'a',
@@ -79,16 +70,13 @@ class FilePersisterTest extends TestCase
         $this->assertStringEndsWith("games/$id.game", self::$fileFilename);
     }
 
-    public function testReturnsNewGameIfNotFound(): void
+    public function testThrowsExceptionIfGameIsNotFound(): void
     {
-        $gameId = uniqid('', true);
+        $id = '1234';
+        $this->expectExceptionMessage("Game \"$id\" could not be found.");
+        $this->expectException(GameNotFoundException::class);
 
-        $game = new Chess($gameId);
-
-        $this->assertJsonStringEqualsJsonString(
-            $game->jsonSerialize(),
-            $this->persister->load($gameId)->jsonSerialize()
-        );
+        $this->persister->load($id);
     }
 
     protected function setUp(): void
