@@ -8,6 +8,7 @@ use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
+use Schrank\TwitterChess\Figure\FigureFactory;
 use Schrank\TwitterChess\Game;
 
 class Serializer
@@ -21,7 +22,30 @@ class Serializer
         $current = Color::{$data['currentPlayer']}();
         $second  = $current->isWhite() ? Color::black() : Color::white();
 
+        $factory = new FigureFactory(
+            $current->isWhite() ? $current : $second,
+            $current->isWhite() ? $second : $current
+        );
+
+        foreach ($data['board'] as $pos => $figure) {
+            $board->addFigure($factory->createFromIcon($figure, $pos));
+        }
+
         return new Chess($data['id'], $board, $current, $second);
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return string[]
+     */
+    private function decode(string $data): array
+    {
+        try {
+            return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (\JsonException $e) {
+            throw new InvalidJsonDataException('Json serialized data are invalid.', 0, $e);
+        }
     }
 
     /**
@@ -38,20 +62,6 @@ class Serializer
         }
         if (!isset($data['id'])) {
             throw new InvalidJsonDataException('Json serialized data does not contain game id.');
-        }
-    }
-
-    /**
-     * @param string $data
-     *
-     * @return string[]
-     */
-    private function decode(string $data): array
-    {
-        try {
-            return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (\JsonException $e) {
-            throw new InvalidJsonDataException('Json serialized data are invalid.', 0, $e);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Schrank\TwitterChess\Game;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
+use Schrank\TwitterChess\Position;
 
 /**
  * @covers \Schrank\TwitterChess\Game\Serializer
@@ -18,19 +19,53 @@ class SerializerTest extends TestCase
     public function testCurrentPlayerAfterUnserialize(): void
     {
         $currentPlayer = Color::BLACK;
-        $data          = $this->getSerializedData($currentPlayer, uniqid('', true));
+        $data          = $this->getSerializedData($currentPlayer, uniqid('', true), []);
 
         $game = $this->serializer->unserialize($data);
         $this->assertSame($currentPlayer, $game->getCurrentPlayer()->toString());
     }
 
+    /**
+     * @param string $currentPlayer
+     *
+     * @return false|string
+     */
+    private function getSerializedData(string $currentPlayer, string $id, array $board)
+    {
+        $data = json_encode([
+            'board'         => $board,
+            'currentPlayer' => $currentPlayer,
+            'id'            => $id,
+        ], JSON_THROW_ON_ERROR, 512);
+
+        return $data;
+    }
+
     public function testIdAfterUnserialize(): void
     {
         $id   = uniqid('', true);
-        $data = $this->getSerializedData(Color::BLACK, $id);
+        $data = $this->getSerializedData(Color::BLACK, $id, []);
 
         $game = $this->serializer->unserialize($data);
         $this->assertSame($id, $game->getId());
+    }
+
+    public function testFiguresAfterUnserialize():void
+    {
+        $board = [
+            'A1' => '🏰',
+            'H5' => '🦥',
+            'B6' => '🏃',
+            'A2' => '🏃',
+            'F5' => '🦥',
+            'C3' => '🏰',
+        ];
+        $data  = $this->getSerializedData(Color::BLACK, uniqid('', true), $board);
+
+        $game = $this->serializer->unserialize($data);
+        foreach ($board as $position => $icon) {
+            $this->assertSame($icon, $game->getBoard()->getFigureFromPosition(new Position($position))->getIcon());
+        }
     }
 
     public function testThrowsExceptionIfJsonDoesNotContainBoard(): void
@@ -86,29 +121,6 @@ class SerializerTest extends TestCase
     protected function setUp(): void
     {
         $this->serializer = new Serializer();
-    }
-
-    /**
-     * @param string $currentPlayer
-     *
-     * @return false|string
-     */
-    private function getSerializedData(string $currentPlayer, string $id)
-    {
-        $data = json_encode([
-            'board'         => [
-                'A1' => '🏰',
-                'H5' => '🦥',
-                'B6' => '🏃',
-                'A2' => '🏃',
-                'F5' => '🦥',
-                'C3' => '🏰',
-            ],
-            'currentPlayer' => $currentPlayer,
-            'id'            => $id,
-        ], JSON_THROW_ON_ERROR, 512);
-
-        return $data;
     }
 
 }
