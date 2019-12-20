@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess;
 
-use Schrank\TwitterChess\Exception\EmptySquareException;
 use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 
 /**
@@ -31,7 +30,7 @@ use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
  * 👮🏻‍👮🏻‍👮🏻👮🏻‍👮🏻‍👮🏻‍👮🏻‍👮🏻‍
  * 🏰🦥🏃🏼‍🤵🏼👰🏼🏃️🦥🏰
  */
-class Board
+class Board implements \JsonSerializable
 {
     /**
      * @var Figure[]
@@ -90,5 +89,15 @@ class Board
         }
 
         return null;
+    }
+
+    public function jsonSerialize(): string
+    {
+        $figures = [];
+        foreach ($this->figures as $figure) {
+            $figures[$figure->getPosition()->toString()] = $figure->getIcon();
+        }
+
+        return json_encode($figures);
     }
 }

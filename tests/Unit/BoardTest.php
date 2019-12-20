@@ -73,8 +73,44 @@ class BoardTest extends TestCase
 
     }
 
+    public function testImplementsJsonSerializable(): void
+    {
+        $this->assertInstanceOf(\JsonSerializable::class, $this->board);
+    }
+
+    public function testJsonSerializable(): void
+    {
+        $figure = $this->createFigure('♟', 'A1');
+        $this->board->addFigure($figure);
+
+        $figure = $this->createFigure('🎲', 'F6');
+        $this->board->addFigure($figure);
+
+        $expected = [
+            'A1' => '♟',
+            'F6' => '🎲',
+        ];
+
+        $this->assertEqualsCanonicalizing($expected, json_decode($this->board->jsonSerialize(), true));
+    }
+
     protected function setUp(): void
     {
         $this->board = new Board();
+    }
+
+    /**
+     * @param string $icon
+     * @param string $position
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|Figure
+     */
+    private function createFigure(string $icon, string $position)
+    {
+        $figure = $this->createMock(Figure::class);
+        $figure->method('getIcon')->willReturn($icon);
+        $figure->method('getPosition')->willReturn(new Position($position));
+
+        return $figure;
     }
 }
