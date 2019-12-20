@@ -6,6 +6,9 @@ namespace Schrank\TwitterChess\Figure;
 
 use Generator;
 
+/**
+ * @covers \Schrank\TwitterChess\Figure\Knight
+ */
 class KnightTest extends AbstractFigureTest
 {
     protected static string $testedClass = Knight::class;

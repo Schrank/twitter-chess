@@ -7,6 +7,9 @@ namespace Schrank\TwitterChess;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 
+/**
+ * @covers \Schrank\TwitterChess\Chess
+ */
 class ChessTest extends TestCase
 {
     private Chess $game;

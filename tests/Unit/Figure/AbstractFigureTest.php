@@ -12,6 +12,9 @@ use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
+/**
+ * @uses   \Schrank\TwitterChess\Position
+ */
 abstract class AbstractFigureTest extends TestCase
 {
     protected static string $testedClass;

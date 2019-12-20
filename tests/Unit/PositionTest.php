@@ -8,6 +8,9 @@ use Generator;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Exception\InvalidPositionException;
 
+/**
+ * @covers \Schrank\TwitterChess\Position
+ */
 class PositionTest extends TestCase
 {
     /**

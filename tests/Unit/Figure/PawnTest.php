@@ -11,6 +11,9 @@ use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
+/**
+ * @covers \Schrank\TwitterChess\Figure\Pawn
+ */
 class PawnTest extends TestCase
 {
     /**

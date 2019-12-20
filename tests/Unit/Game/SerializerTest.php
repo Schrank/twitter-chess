@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection UnusedFunctionResultInspection */
 
 declare(strict_types=1);
 
@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 
+/**
+ * @covers \Schrank\TwitterChess\Game\Serializer
+ */
 class SerializerTest extends TestCase
 {
     private Serializer $serializer;

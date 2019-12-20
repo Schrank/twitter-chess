@@ -12,7 +12,6 @@ use Schrank\TwitterChess\Position;
 
 /**
  * @covers \Schrank\TwitterChess\Figure\Bishop
- * @uses   \Schrank\TwitterChess\Position
  */
 class BishopTest extends AbstractFigureTest
 {

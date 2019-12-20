@@ -7,6 +7,15 @@ namespace Schrank\TwitterChess\Figure;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
 
+/**
+ * @covers \Schrank\TwitterChess\Figure\FigureFactory
+ * @uses   \Schrank\TwitterChess\Figure\Pawn
+ * @uses   \Schrank\TwitterChess\Figure\Bishop
+ * @uses   \Schrank\TwitterChess\Figure\King
+ * @uses   \Schrank\TwitterChess\Figure\Pawn
+ * @uses   \Schrank\TwitterChess\Figure\Queen
+ * @uses   \Schrank\TwitterChess\Figure\Rook
+ */
 class FigureFactoryTest extends TestCase
 {
     private Color $blackPlayer;
@@ -20,7 +29,7 @@ class FigureFactoryTest extends TestCase
     {
         $figure = $this->factory->createFromIcon($icon, $pos);
         $this->assertSame($class, get_class($figure));
-        $this->assertSame($color->isWhite(), $figure->getColor()->isWhite());
+        $this->assertSame($color->isWhite() ? $this->whitePlayer : $this->blackPlayer, $figure->getColor());
         $this->assertSame($pos, $figure->getPosition()->toString());
     }
 

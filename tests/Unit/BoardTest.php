@@ -9,6 +9,9 @@ use Schrank\TwitterChess\Exception\EmptySquareException;
 use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 use Schrank\TwitterChess\Figure\King;
 
+/**
+ * @covers \Schrank\TwitterChess\Board
+ */
 class BoardTest extends TestCase
 {
 

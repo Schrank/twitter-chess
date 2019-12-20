@@ -6,6 +6,9 @@ namespace Schrank\TwitterChess;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Schrank\TwitterChess\Color
+ */
 class ColorTest extends TestCase
 {
     public function testIsWhite(): void

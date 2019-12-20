@@ -8,7 +8,6 @@ use Generator;
 
 /**
  * @covers \Schrank\TwitterChess\Figure\King
- * @uses   \Schrank\TwitterChess\Position
  */
 class KingTest extends AbstractFigureTest
 {

@@ -7,8 +7,10 @@ namespace Schrank\TwitterChess\Game;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Schrank\TwitterChess\Chess;
-use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 
+/**
+ * @covers \Schrank\TwitterChess\Game\FilePersisterTest
+ */
 class FilePersisterTest extends TestCase
 {
     public static string $filePutContentsfilename = '';
