@@ -12,7 +12,8 @@ class ChessTest extends TestCase
     private Chess $game;
     private string $id;
     private Board $board;
-    private $currentPlayer;
+    private Color $currentPlayer;
+    private Color $secondPlayer;
 
     public function testInstanceOfJsonSerializable(): void
     {
@@ -53,6 +54,7 @@ class ChessTest extends TestCase
         $this->id            = uniqid('', true);
         $this->board         = $this->createMock(Board::class);
         $this->currentPlayer = Color::black();
-        $this->game          = new Chess($this->id, $this->board, $this->currentPlayer);
+        $this->secondPlayer  = Color::white();
+        $this->game          = new Chess($this->id, $this->board, $this->currentPlayer, $this->secondPlayer);
     }
 }

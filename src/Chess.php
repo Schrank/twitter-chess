@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess;
 
+use JsonSerializable;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
+use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 use Schrank\TwitterChess\Figure\Bishop;
 use Schrank\TwitterChess\Figure\King;
@@ -13,7 +15,7 @@ use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Figure\Queen;
 use Schrank\TwitterChess\Figure\Rook;
 
-class Chess implements \JsonSerializable, Game
+class Chess implements JsonSerializable, Game
 {
     /**
      * @var Color[]
@@ -66,26 +68,57 @@ class Chess implements \JsonSerializable, Game
             ],
         ];
 
-    public function __construct(string $id, Board $board = null, Color $currentPlayer = null)
-    {
-        $this->board   = $board ?? new Board();
-        $this->players = [
-            Color::WHITE => Color::white(),
-            Color::BLACK => Color::black()
-        ];
+    public function __construct(
+        string $id,
+        Board $board = null,
+        Color $currentPlayer = null,
+        Color $secondPlayer = null
+    ) {
+        $this->validate($board, $currentPlayer, $secondPlayer);
+        $this->initPlayers($currentPlayer, $secondPlayer);
+        $this->initBoard($board);
 
-        $currentPlayer       = $currentPlayer ? $currentPlayer->toString() : Color::WHITE;
-        $this->currentPlayer = $this->players[$currentPlayer];
-        $this->init();
         $this->id = $id;
     }
 
-    private function init(): void
+    private function validate(?Board $board, ?Color $first, ?Color $second): void
     {
-        $board = $this->getBoard();
+        if ($board !== null && ($first === null || $second === null)) {
+            throw new InvalidGameConfigurationException('If you pass a board, you need to pass two players as well.');
+        }
+        if (($first !== null || $second !== null) && $board === null) {
+            throw new InvalidGameConfigurationException('If you pass a player, you need to pass a board.');
+        }
+        if (($first === null && $second !== null) || ($second === null && $first !== null)) {
+            throw new InvalidGameConfigurationException(
+                'If you pass a player, you need to pass a second player as well.'
+            );
+        }
+    }
+
+    private function initPlayers(?Color $currentPlayer, ?Color $secondPlayer): void
+    {
+        $this->currentPlayer = $currentPlayer ?? Color::white();
+        $secondPlayer        = $secondPlayer ?? Color::black();
+
+        $this->players = [
+            Color::WHITE => $this->currentPlayer->isWhite() ? $this->currentPlayer : $secondPlayer,
+            Color::BLACK => !$this->currentPlayer->isWhite() ? $this->currentPlayer : $secondPlayer,
+        ];
+    }
+
+    private function initBoard(?Board $board): void
+    {
+        if ($board === null) {
+            $this->board = new Board();
+        } else {
+            $this->board = $board;
+
+            return;
+        }
         foreach ($this->startBoard as $color => $figures) {
             foreach ($figures as $pos => $figureClass) {
-                $board->addFigure(
+                $this->board->addFigure(
                     new $figureClass(new Position($pos), $this->players[$color])
                 );
             }

@@ -6,9 +6,11 @@ namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Board;
+use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
-use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
+use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Position;
 
 /**
@@ -58,6 +60,43 @@ class ChessTest extends TestCase
     {
         $this->expectException(FigureDoesNotMatchPlayerException::class);
         $this->game->move(new Position('B7'), new Position('B6'));
+    }
+
+    public function testReturnsSamePlayersAsOnConstruct(): void
+    {
+        $current = Color::white();
+        $second  = Color::black();
+
+        $board = new Board();
+        $board->addFigure(new Pawn(new Position('B2'), $current));
+        $game = new Chess('123', $board, $current, $second);
+
+        $this->assertSame($current, $game->getCurrentPlayer());
+        $game->move(new Position('B2'), new Position('B4'));
+        $this->assertSame($second, $game->getCurrentPlayer());
+    }
+
+    public function testThrowsExceptionIfBoardWithoutPlayerIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+        $this->expectExceptionMessage('If you pass a board, you need to pass two players as well.');
+
+        new Chess('', $this->createMock(Board::class));
+    }
+
+    public function testThrowsExceptionIfPlayersWithoutBoardIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+        $this->expectExceptionMessage('If you pass a player, you need to pass a board.');
+
+        new Chess('', null, $this->createMock(Color::class));
+    }
+
+    public function testThrowsExceptionIfOnlyOnePlayerIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+
+        new Chess('', $this->createMock(Board::class), $this->createMock(Color::class));
     }
 
     protected function setUp(): void
