@@ -2,13 +2,13 @@
 <?php
 
 use Ramsey\Uuid\Uuid;
-use Schrank\TwitterChess\Game;
+use Schrank\TwitterChess\Chess;
 
 ?>
 
 <div class="container board"></div>
 <script>
-    <?php $game = (new Game()); ?>
+    <?php $game = (new Chess()); ?>
     const board = <?= json_encode($game->getBoard()->toArray(), JSON_THROW_ON_ERROR, 512) ?>;
     const id = <?= json_encode(Uuid::uuid5(Uuid::NAMESPACE_DNS, $_SERVER['SERVER_NAME']), JSON_THROW_ON_ERROR, 512)?>;
 
