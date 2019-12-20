@@ -60,9 +60,8 @@ class Bishop extends AbstractFigure
             $this->position->getColumn() + $rowsAndColumns * $sign,
             $this->position->getRow() + $rowsAndColumns
         );
-        if (!$position->equals($this->position)) {
-            return $position;
-        }
+
+        return $position;
     }
 
     /**
