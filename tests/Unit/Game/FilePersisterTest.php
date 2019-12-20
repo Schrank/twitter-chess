@@ -11,8 +11,6 @@ use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 
 class FilePersisterTest extends TestCase
 {
-    private FilePersister $persister;
-
     public static string $filePutContentsfilename = '';
     public static string $filePutContentsdata;
     public static int $filePutContentsflags;
@@ -22,6 +20,7 @@ class FilePersisterTest extends TestCase
     public static string $fileFilename;
     public static bool $fileExistsReturn;
     public static string $fileExistsFilename;
+    private FilePersister $persister;
 
     public function testImplementsPersister(): void
     {
@@ -67,12 +66,33 @@ class FilePersisterTest extends TestCase
 
         $this->persister->load('abc');
     }
+
     public function testThrowsExceptionIfJsonDoesNotContainCurrentPlayer(): void
     {
         $this->expectException(InvalidJsonDataException::class);
         $this->expectExceptionMessage('Json serialized data does not contain current player.');
         self::$fileExistsReturn = true;
         self::$fileReturn       = ['{"board":"lala"}'];
+
+        $this->persister->load('abc');
+    }
+
+    public function testThrowsExceptionIfCurrentPlayerIsNeitherWhiteNorBlack(): void
+    {
+        $this->expectException(InvalidJsonDataException::class);
+        $this->expectExceptionMessage('Json serialized data does not contain current player.');
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = ['{"board":"lala","currentPlayer":"grey"}'];
+
+        $this->persister->load('abc');
+    }
+
+    public function testThrowsExceptionIfJsonDoesNotContainId(): void
+    {
+        $this->expectException(InvalidJsonDataException::class);
+        $this->expectExceptionMessage('Json serialized data does not contain game id.');
+        self::$fileExistsReturn = true;
+        self::$fileReturn       = ['{"board":"lala","currentPlayer":"white"}'];
 
         $this->persister->load('abc');
     }

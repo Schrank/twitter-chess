@@ -58,5 +58,8 @@ class FilePersister implements Persister
             || !in_array($gameData['currentPlayer'], [Color::WHITE, Color::BLACK], true)) {
             throw new InvalidJsonDataException('Json serialized data does not contain current player.');
         }
+        if (!isset($gameData['id'])) {
+            throw new InvalidJsonDataException('Json serialized data does not contain game id.');
+        }
     }
 }
