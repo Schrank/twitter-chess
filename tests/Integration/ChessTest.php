@@ -8,16 +8,16 @@ use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
-use Schrank\TwitterChess\Game;
+use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Position;
 
 /**
  * @uses   Board
- * @covers Game
+ * @covers Chess
  */
-class GameTest extends TestCase
+class ChessTest extends TestCase
 {
-    private Game $game;
+    private Chess $game;
 
     public function testNewGame(): void
     {
@@ -62,6 +62,6 @@ class GameTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->game = new Game(uniqid('', true));
+        $this->game = new Chess(uniqid('', true));
     }
 }
