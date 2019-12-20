@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Exception;
 
-class InvalidPositionException extends \RuntimeException
+class InvalidPositionException extends \UnexpectedValueException
 {
 
 }
