@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Game;
 
 use Schrank\TwitterChess\Chess;
-use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 use Schrank\TwitterChess\Game;
 
 class FilePersister implements Persister
@@ -13,7 +12,7 @@ class FilePersister implements Persister
 
     private const SAVE_GAME_PATH = __DIR__ . '/../../games/%s.game';
 
-    public function save(Game $game)
+    public function save(Game $game): void
     {
         $return = file_put_contents(
             sprintf(self::SAVE_GAME_PATH, $game->getId()),

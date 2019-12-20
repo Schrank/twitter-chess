@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Game;
 
-use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\ChessBoard;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 use Schrank\TwitterChess\Game;
@@ -50,7 +50,7 @@ class Serializer
     {
         try {
             return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (\JsonException $e) {
             throw new InvalidJsonDataException('Json serialized data are invalid.', 0, $e);
         }
     }

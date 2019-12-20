@@ -71,6 +71,6 @@ class ChessBoard implements \JsonSerializable, Board
             $figures[$figure->getPosition()->toString()] = $figure->getIcon();
         }
 
-        return json_encode($figures);
+        return json_encode($figures, JSON_THROW_ON_ERROR, 512);
     }
 }

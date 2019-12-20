@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Game;
 
-use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Game;
 
 interface Persister

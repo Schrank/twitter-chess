@@ -109,13 +109,13 @@ class Chess implements JsonSerializable, Game
 
     private function initBoard(?Board $board): void
     {
-        if ($board === null) {
-            $this->board = new ChessBoard();
-        } else {
+        if ($board !== null) {
+            /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
             $this->board = $board;
 
             return;
         }
+        $this->board = new ChessBoard();
         foreach ($this->startBoard as $color => $figures) {
             foreach ($figures as $pos => $figureClass) {
                 $this->board->addFigure(
