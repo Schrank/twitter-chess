@@ -49,7 +49,7 @@ jobs:
       - name: rsync deployment to uberspace
         uses: burnett01/rsync-deployments@2.0
         with:
-          switches: -avzr --delete --exclude=".git"
+          switches: -avzr --delete --exclude=".git" --exclude="games"
           path: ./
           remote_path: /var/www/virtual/twitches/twitter-chess
           remote_host: ${{ secrets.DEPLOY_HOST }}
