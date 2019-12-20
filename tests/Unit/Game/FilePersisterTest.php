@@ -5,15 +5,22 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Game;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Game;
+use RuntimeException;
+use Schrank\TwitterChess\Chess;
 
 class FilePersisterTest extends TestCase
 {
-    public static string $filename = '';
-    public static string $data;
-    public static int $flags;
-    public static $filePutContentsReturn;
     private FilePersister $persister;
+
+    public static string $filePutContentsfilename = '';
+    public static string $filePutContentsdata;
+    public static int $filePutContentsflags;
+    public static /** @noinspection PhpMissingFieldTypeInspection */
+        $filePutContentsReturn;
+    public static array $fileReturn;
+    public static string $fileFilename;
+    public static bool $fileExistsReturn;
+    public static string $fileExistsFilename;
 
     public function testImplementsPersister(): void
     {
@@ -24,43 +31,68 @@ class FilePersisterTest extends TestCase
     {
         $content = 'A';
         $id      = uniqid('', true);
-        $game    = $this->createMock(Game::class);
+        $game    = $this->createMock(Chess::class);
 
         $game->method('jsonSerialize')->willReturn($content);
         $game->method('getId')->willReturn($id);
 
         $this->persister->save($game);
 
-        $this->assertSame($content, self::$data);
-        $this->assertStringEndsWith('.game', self::$filename);
-        $this->assertStringEndsNotWith('.game.game', self::$filename);
-        $this->assertSame(self::$flags, FILE_APPEND);
+        $this->assertSame($content, self::$filePutContentsdata);
+        $this->assertStringEndsWith('.game', self::$filePutContentsfilename);
+        $this->assertStringEndsNotWith('.game.game', self::$filePutContentsfilename);
+        $this->assertSame(self::$filePutContentsflags, FILE_APPEND);
     }
 
     public function testThrowsErrorOnFalseSave(): void
     {
         $id = 'abc';
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         self::$filePutContentsReturn = false;
-        $this->expectExceptionMessage("Game \"$id\" could not be saved.");
+        $this->expectExceptionMessage("Chess \"$id\" could not be saved.");
 
-        $game = $this->createMock(Game::class);
+        $game = $this->createMock(Chess::class);
         $game->method('getId')->willReturn($id);
         $this->persister->save($game);
+    }
+
+    public function testLoadReturnsLastEntryFromFile(): void
+    {
+        $this->markTestIncomplete('Implement me.');
+
+        return;
+        $id   = 'abc';
+        $game = $this->persister->load($id);
+
+    }
+
+    public function testReturnsNewGameIfNotFound(): void
+    {
+        $gameId = uniqid('', true);
+
+        $game = new Chess($gameId);
+
+        $this->assertJsonStringEqualsJsonString(
+            $game->jsonSerialize(),
+            $this->persister->load($gameId)->jsonSerialize()
+        );
     }
 
     protected function setUp(): void
     {
         $this->persister = new FilePersister();
-    }
 
-    protected function tearDown(): void
-    {
-        self::$filename              = '';
-        self::$data                  = '';
-        self::$flags                 = 0;
-        self::$filePutContentsReturn = 0;
+        self::$filePutContentsfilename = '';
+        self::$filePutContentsdata     = '';
+        self::$filePutContentsflags    = 0;
+        self::$filePutContentsReturn   = 0;
+
+        self::$fileFilename = '';
+        self::$fileReturn   = [];
+
+        self::$fileExistsFilename = '';
+        self::$fileExistsReturn   = false;
     }
 }
 
@@ -69,10 +101,26 @@ function file_put_contents(
     $data,
     /** @noinspection PhpOptionalBeforeRequiredParametersInspection */ int $flags = 0
 ) {
-    FilePersisterTest::$data     = $data;
-    FilePersisterTest::$filename = $filename;
-    FilePersisterTest::$flags    = $flags;
+    FilePersisterTest::$filePutContentsdata     = $data;
+    FilePersisterTest::$filePutContentsfilename = $filename;
+    FilePersisterTest::$filePutContentsflags    = $flags;
 
     return FilePersisterTest::$filePutContentsReturn;
 }
+
+function file(string $filename): array
+{
+    FilePersisterTest::$fileFilename = $filename;
+
+    return FilePersisterTest::$fileReturn;
+}
+
+function file_exists($filename): bool
+{
+    FilePersisterTest::$fileExistsFilename = $filename;
+
+    return FilePersisterTest::$fileExistsReturn;
+}
+
+
 

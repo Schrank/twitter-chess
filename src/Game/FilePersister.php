@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Game;
 
+use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Game;
 
 class FilePersister implements Persister
@@ -18,13 +19,13 @@ class FilePersister implements Persister
         );
         if ($return === false) {
             throw new \RuntimeException(
-                sprintf('Game "%s" could not be saved.', $game->getId())
+                sprintf('Chess "%s" could not be saved.', $game->getId())
             );
         }
     }
 
-    public function load(): Game
+    public function load(string $id): Game
     {
-        // TODO: Implement load() method.
+        return new Chess($id);
     }
 }
