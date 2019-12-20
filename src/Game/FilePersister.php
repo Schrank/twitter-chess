@@ -33,9 +33,8 @@ class FilePersister implements Persister
             throw new GameNotFoundException(sprintf('Game "%s" could not be found.', $id));
 
         }
-        $lines    = file($saveGamePath);
-        $lastLine = array_pop($lines);
+        $lines = file($saveGamePath);
 
-        return '';
+        return array_pop($lines);
     }
 }

@@ -57,17 +57,16 @@ class FilePersisterTest extends TestCase
     public function testLoadReturnsLastEntryFromFile(): void
     {
         self::$fileExistsReturn = true;
+        $gameData               = 'c';
         self::$fileReturn       = [
             'a',
             'b',
-            'c'
+            $gameData
         ];
 
-        $id   = 'abc';
-        $game = $this->persister->load($id);
-
-        $this->assertStringEndsWith("games/$id.game", self::$fileExistsFilename);
-        $this->assertStringEndsWith("games/$id.game", self::$fileFilename);
+        $this->assertSame($gameData, $this->persister->load('abc'));
+        $this->assertStringEndsWith("games/abc.game", self::$fileExistsFilename);
+        $this->assertStringEndsWith("games/abc.game", self::$fileFilename);
     }
 
     public function testThrowsExceptionIfGameIsNotFound(): void
