@@ -12,11 +12,12 @@ use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Figure\Queen;
 use Schrank\TwitterChess\Figure\Rook;
 
-class Game
+class Game implements \JsonSerializable
 {
     private array $players;
     private Color $currentPlayer;
     private Board $board;
+    private string $id;
 
     /**
      * @var string[]
@@ -61,11 +62,12 @@ class Game
             ],
         ];
 
-    public function __construct()
+    public function __construct(string $id)
     {
         $this->board   = new Board();
         $this->players = [Color::WHITE => Color::white(), Color::BLACK => Color::black()];
         $this->init();
+        $this->id = $id;
     }
 
     private function init(): void
@@ -79,6 +81,11 @@ class Game
                 );
             }
         }
+    }
+
+    public function getBoard(): Board
+    {
+        return $this->board;
     }
 
     public function move(Position $oldPos, Position $newPos): void
@@ -99,16 +106,6 @@ class Game
         $this->nextPlayer();
     }
 
-    public function getBoard(): Board
-    {
-        return $this->board;
-    }
-
-    public function getCurrentPlayer(): Color
-    {
-        return $this->currentPlayer;
-    }
-
     private function nextPlayer(): void
     {
         foreach ($this->players as $player) {
@@ -117,5 +114,20 @@ class Game
             }
             $this->currentPlayer = $player;
         }
+    }
+
+    public function getCurrentPlayer(): Color
+    {
+        return $this->currentPlayer;
+    }
+
+    public function jsonSerialize(): string
+    {
+        throw new \RuntimeException('Implement me!');
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }
