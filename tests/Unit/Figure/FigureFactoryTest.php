@@ -6,6 +6,7 @@ namespace Schrank\TwitterChess\Figure;
 
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
+use Schrank\TwitterChess\Exception\UnknownFigureException;
 
 /**
  * @covers \Schrank\TwitterChess\Figure\FigureFactory
@@ -31,6 +32,15 @@ class FigureFactoryTest extends TestCase
         $this->assertSame($class, get_class($figure));
         $this->assertSame($color->isWhite() ? $this->whitePlayer : $this->blackPlayer, $figure->getColor());
         $this->assertSame($pos, $figure->getPosition()->toString());
+    }
+
+    public function testThrowsExceptionOnUnknownIcon()
+    {
+        $this->expectException(UnknownFigureException::class);
+        $this->expectExceptionMessage('The figure "♟" is unknown.');
+
+        /** @noinspection UnusedFunctionResultInspection */
+        $this->factory->createFromIcon('♟', 'A5');
     }
 
     /**

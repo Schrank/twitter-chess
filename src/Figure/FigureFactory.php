@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Figure;
 
 use Schrank\TwitterChess\Color;
+use Schrank\TwitterChess\Exception\UnknownFigureException;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
 
@@ -52,5 +53,7 @@ class FigureFactory
             case '🐴':
                 return new Knight(new Position($pos), $this->blackPlayer);
         }
+
+        throw new UnknownFigureException(sprintf('The figure "%s" is unknown.', $icon));
     }
 }
