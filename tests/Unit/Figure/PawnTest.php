@@ -40,4 +40,19 @@ class PawnTest extends TestCase
         yield [Color::black(), 'E4', ['E3']];
         yield [Color::black(), 'E7', ['E6', 'E5']];
     }
+
+    public function testGetIconForWhite(): void
+    {
+        /** @var Figure $figure */
+        $figure = new Pawn($this->createMock(Position::class), Color::white());
+        $this->assertSame('👮', $figure->getIcon());
+
+    }
+
+    public function testGetIconForBlack(): void
+    {
+        /** @var Figure $figure */
+        $figure = new Pawn($this->createMock(Position::class), Color::black());
+        $this->assertSame('💂', $figure->getIcon());
+    }
 }
