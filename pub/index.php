@@ -12,14 +12,14 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js)$/', $_SERVER['REQUEST_URI'])) {
     return false; // Liefere die angefragte Ressource direkt aus
 }
 
-if (strpos($_SERVER['REQUEST_URI'], '/api/move') === 0) {
+if (strpos($_SERVER['REQUEST_URI'], '/api/move/') === 0) {
     $api = new Api(new FilePersister(), new Serializer());
     echo json_encode($api->move($_POST['from'], $_POST['to'], $_POST['id']), JSON_THROW_ON_ERROR, 512);
 
     return;
 }
 
-if (strpos($_SERVER['REQUEST_URI'], '/api/load') === 0) {
+if (strpos($_SERVER['REQUEST_URI'], '/api/load/') === 0) {
     $api = new Api(new FilePersister(), new Serializer());
     echo json_encode($api->load($_POST['id']), JSON_THROW_ON_ERROR, 512);
 
