@@ -54,7 +54,7 @@ class GameTest extends TestCase
         $this->assertEquals(Color::black(), $this->game->getCurrentPlayer());
     }
 
-    public function testThrowsExceptionIfFigureIsNotFromCurrentPlayer()
+    public function testThrowsExceptionIfFigureIsNotFromCurrentPlayer(): void
     {
         $this->expectException(FigureDoesNotMatchPlayerException::class);
         $this->game->move(new Position('B7'), new Position('B6'));
@@ -62,6 +62,6 @@ class GameTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->game = new Game();
+        $this->game = new Game(uniqid('', true));
     }
 }
