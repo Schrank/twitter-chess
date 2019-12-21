@@ -4,6 +4,7 @@
          colors="true"
          verbose="true"
          beStrictAboutOutputDuringTests="true"
+         forceCoversAnnotation="true"
          beStrictAboutTestsThatDoNotTestAnything="true">
     <testsuites>
         <testsuite name="Unit">
