@@ -34,7 +34,7 @@ class SerializerTest extends TestCase
     private function getSerializedData(string $currentPlayer, string $id, array $board)
     {
         $data = json_encode([
-            'board'         => json_encode($board, JSON_THROW_ON_ERROR, 512),
+            'board'         => $board,
             'currentPlayer' => $currentPlayer,
             'id'            => $id,
         ], JSON_THROW_ON_ERROR, 512);

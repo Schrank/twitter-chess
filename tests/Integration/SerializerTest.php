@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Color;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Game\Serializer;
 
 class SerializerTest extends TestCase

@@ -25,8 +25,7 @@ class Serializer
             $current->isWhite() ? $current : $second,
             $current->isWhite() ? $second : $current
         );
-        // TODO remove double json_decode
-        $data['board'] = json_decode($data['board'], true, 512, JSON_THROW_ON_ERROR);
+
         foreach ($data['board'] as $pos => $figure) {
             $board->addFigure($factory->createFromIcon($figure, $pos));
         }
@@ -80,6 +79,6 @@ class Serializer
 
     private function serializeBoard(Board $board): array
     {
-        return [];
+        return $board->getFiguresAsArray();
     }
 }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
 use Schrank\TwitterChess\Figure\Pawn;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Position;
 
 /**
@@ -101,7 +101,12 @@ class ChessTest extends TestCase
 
     public function testUnserializeSerializeGivesSameResult(): void
     {
-        $this->markTestIncomplete('Implement me!');
+        $serializer       = new Game\Serializer();
+        $serializedString = $serializer->serialize($this->game);
+        $game             = $serializer->unserialize($serializedString);
+        $result           = $serializer->serialize($game);
+        $this->assertNotEmpty($result);
+        $this->assertSame($serializedString, $result);
     }
 
     protected function setUp(): void

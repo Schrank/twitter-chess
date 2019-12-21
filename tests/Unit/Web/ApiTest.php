@@ -6,8 +6,8 @@ namespace Schrank\TwitterChess\Web;
 
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Board;
-use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Exception\GameNotFoundException;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Game\Persister;
 use Schrank\TwitterChess\Game\Serializer;
 
@@ -23,7 +23,6 @@ class ApiTest extends TestCase
         $to   = 'A4';
         $id   = uniqid('', true);
 
-        // TODO change with mock of Game after Serialization is refactored
         $gameMock  = $this->createMock(Game::class);
         $boardMock = $this->createMock(Board::class);
         $newBoard  = ['NEW BOARD'];
@@ -63,14 +62,70 @@ class ApiTest extends TestCase
     private function getNewGameArray(): array
     {
         return [
-            '🗼', '🐴','🧝','🤴','👸','🧝','🐴','🗼',
-            '💂','💂','💂','💂','💂','💂','💂','💂',
-            '⬜','⬛','⬜','⬛','⬜','⬛','⬜','⬛',
-            '⬛','⬜','⬛','⬜','⬛','⬜','⬛','⬜',
-            '⬜','⬛','⬜','⬛','⬜','⬛','⬜','⬛',
-            '⬛','⬜','⬛','⬜','⬛','⬜','⬛','⬜',
-            '👮','👮','👮','👮','👮','👮','👮','👮',
-            '🏰','🦥','🏃','🤵','👰','🏃','🦥','🏰',
+            '🗼',
+            '🐴',
+            '🧝',
+            '🤴',
+            '👸',
+            '🧝',
+            '🐴',
+            '🗼',
+            '💂',
+            '💂',
+            '💂',
+            '💂',
+            '💂',
+            '💂',
+            '💂',
+            '💂',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '⬛',
+            '⬜',
+            '👮',
+            '👮',
+            '👮',
+            '👮',
+            '👮',
+            '👮',
+            '👮',
+            '👮',
+            '🏰',
+            '🦥',
+            '🏃',
+            '🤵',
+            '👰',
+            '🏃',
+            '🦥',
+            '🏰',
         ];
     }
 

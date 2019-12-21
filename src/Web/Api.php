@@ -32,7 +32,6 @@ class Api
             new Position($to)
         );
         $this->persister->save(
-        // TODO move serialization into Serializer class
             $game->getId(), $this->serializer->serialize($game)
         );
 
