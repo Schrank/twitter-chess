@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_URI'] === '/') {
 
     return;
 }
-if ($_SERVER['REQUEST_URI'] === '/board') {
+if (strpos($_SERVER['REQUEST_URI'], '/board') === 0) {
     $page = 'board';
     require '../templates/base.phtml';
 
