@@ -15,13 +15,13 @@ class FilePersister implements Persister
     {
         // todo test directory creation
         $directory = dirname(self::SAVE_GAME_PATH);
-        if (!mkdir($directory) && !is_dir($directory)) {
+        if (!is_dir($directory) && !mkdir($directory) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
 
         $return = file_put_contents(
             sprintf(self::SAVE_GAME_PATH, $id),
-            $game,
+            $game . "\n",
             FILE_APPEND
         );
 

@@ -36,7 +36,7 @@ class FilePersisterTest extends TestCase
 
         $this->persister->save($id, $game);
 
-        $this->assertSame($game, self::$filePutContentsdata);
+        $this->assertSame($game . "\n", self::$filePutContentsdata);
         $this->assertStringEndsWith('.game', self::$filePutContentsfilename);
         $this->assertStringEndsNotWith('.game.game', self::$filePutContentsfilename);
         $this->assertSame(self::$filePutContentsflags, FILE_APPEND);
