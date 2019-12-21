@@ -140,11 +140,6 @@ class SerializerTest extends TestCase
         );
     }
 
-    public function testUnserializeSerializeGivesSameResult(): void
-    {
-        $this->markTestIncomplete('Implement me!');
-    }
-
     protected function setUp(): void
     {
         $this->serializer = new Serializer();

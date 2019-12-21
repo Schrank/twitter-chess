@@ -99,6 +99,11 @@ class ChessTest extends TestCase
         new Chess('', $this->createMock(ChessBoard::class), $this->createMock(Color::class));
     }
 
+    public function testUnserializeSerializeGivesSameResult(): void
+    {
+        $this->markTestIncomplete('Implement me!');
+    }
+
     protected function setUp(): void
     {
         $this->game = new Chess(uniqid('', true));

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess;
 
 use PHPUnit\Framework\TestCase;
+use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 
 /**
@@ -50,6 +51,29 @@ class ChessTest extends TestCase
             $expected,
             json_decode($this->game->jsonSerialize(), true, 512, JSON_THROW_ON_ERROR)
         );
+    }
+
+    public function testThrowsExceptionIfBoardWithoutPlayerIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+        $this->expectExceptionMessage('If you pass a board, you need to pass two players as well.');
+
+        new Chess('', $this->createMock(ChessBoard::class));
+    }
+
+    public function testThrowsExceptionIfPlayersWithoutBoardIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+        $this->expectExceptionMessage('If you pass a player, you need to pass a board.');
+
+        new Chess('', null, $this->createMock(Color::class));
+    }
+
+    public function testThrowsExceptionIfOnlyOnePlayerIsPassed(): void
+    {
+        $this->expectException(InvalidGameConfigurationException::class);
+
+        new Chess('', $this->createMock(ChessBoard::class), $this->createMock(Color::class));
     }
 
     protected function setUp(): void
