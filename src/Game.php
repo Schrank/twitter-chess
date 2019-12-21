@@ -158,6 +158,8 @@ class Game
                 continue;
             }
             $this->currentPlayer = $player;
+
+            return;
         }
     }
 

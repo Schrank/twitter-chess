@@ -54,6 +54,12 @@ class ChessTest extends TestCase
         $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
         $this->game->move(new Position('B2'), new Position('B4'));
         $this->assertEquals(Color::black(), $this->game->getCurrentPlayer());
+        $this->game->move(new Position('B7'), new Position('B5'));
+        $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
+        $this->game->move(new Position('B1'), new Position('C3'));
+        $this->assertEquals(Color::black(), $this->game->getCurrentPlayer());
+        $this->game->move(new Position('H7'), new Position('H5'));
+        $this->assertEquals(Color::white(), $this->game->getCurrentPlayer());
     }
 
     public function testThrowsExceptionIfFigureIsNotFromCurrentPlayer(): void
