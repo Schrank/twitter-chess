@@ -25,13 +25,13 @@ class Color
         return new self(self::WHITE);
     }
 
-    public function isWhite(): bool
-    {
-        return $this->color === self::WHITE;
-    }
-
     public function toString(): string
     {
         return $this->isWhite() ? 'white' : 'black';
+    }
+
+    public function isWhite(): bool
+    {
+        return $this->color === self::WHITE;
     }
 }

@@ -23,20 +23,6 @@ abstract class AbstractFigure implements Figure
         $this->color    = $color;
     }
 
-    public function getPosition(): Position
-    {
-        return $this->position;
-    }
-
-    public function getName(): string
-    {
-        if ($this->shortName === '') {
-            $this->shortName = (new ReflectionClass($this))->getShortName();
-        }
-
-        return $this->shortName;
-    }
-
     public function move(Position $position, Board $board): void
     {
         $valid = $this->isNewPositionValid($position, $board);
@@ -45,6 +31,19 @@ abstract class AbstractFigure implements Figure
             $this->throwInvalidMoveException($position);
         }
         $this->position = $position;
+    }
+
+    private function isNewPositionValid(Position $position, Board $board): bool
+    {
+        $valid = false;
+        foreach ($this->getValidPositions($board) as $validPosition) {
+            if ($validPosition->equals($position)) {
+                $valid = true;
+                break;
+            }
+        }
+
+        return $valid;
     }
 
     private function throwInvalidMoveException(Position $position): void
@@ -59,17 +58,18 @@ abstract class AbstractFigure implements Figure
         );
     }
 
-    private function isNewPositionValid(Position $position, Board $board): bool
+    public function getName(): string
     {
-        $valid = false;
-        foreach ($this->getValidPositions($board) as $validPosition) {
-            if ($validPosition->equals($position)) {
-                $valid = true;
-                break;
-            }
+        if ($this->shortName === '') {
+            $this->shortName = (new ReflectionClass($this))->getShortName();
         }
 
-        return $valid;
+        return $this->shortName;
+    }
+
+    public function getPosition(): Position
+    {
+        return $this->position;
     }
 
     public function getColor(): Color

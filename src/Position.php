@@ -75,15 +75,15 @@ class Position
         return (int)array_flip(self::$columnMapping)[$column];
     }
 
+    public function equals(Position $compareWith): bool
+    {
+        return $this->getRow() === $compareWith->getRow() && $this->getColumn() === $compareWith->getColumn();
+    }
+
     public function getRow(): int
     {
         [, $row] = str_split($this->pos);
 
         return (int)$row;
-    }
-
-    public function equals(Position $compareWith): bool
-    {
-        return $this->getRow() === $compareWith->getRow() && $this->getColumn() === $compareWith->getColumn();
     }
 }

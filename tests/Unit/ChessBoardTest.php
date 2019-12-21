@@ -91,11 +91,6 @@ class ChessBoardTest extends TestCase
         $this->assertEqualsCanonicalizing($expected, $this->board->getFiguresAsArray());
     }
 
-    protected function setUp(): void
-    {
-        $this->board = new Board();
-    }
-
     /**
      * @param string $icon
      * @param string $position
@@ -109,5 +104,10 @@ class ChessBoardTest extends TestCase
         $figure->method('getPosition')->willReturn(new Position($position));
 
         return $figure;
+    }
+
+    protected function setUp(): void
+    {
+        $this->board = new Board();
     }
 }

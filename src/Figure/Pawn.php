@@ -32,14 +32,14 @@ class Pawn extends AbstractFigure
         return $validMoves;
     }
 
-    private function createNewPosition(int $columnIncrease): Position
-    {
-        return Position::createFromInts($this->position->getColumn(), $this->position->getRow() + $columnIncrease);
-    }
-
     private function getPawnRow(): int
     {
         return $this->color->isWhite() ? 2 : 7;
+    }
+
+    private function createNewPosition(int $columnIncrease): Position
+    {
+        return Position::createFromInts($this->position->getColumn(), $this->position->getRow() + $columnIncrease);
     }
 
     private function isWhite(): bool

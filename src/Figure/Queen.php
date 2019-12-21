@@ -24,6 +24,38 @@ class Queen extends AbstractFigure
     /**
      * @return Position[]
      */
+    private function getRookPositions(): array
+    {
+        $validPositions = [];
+
+        for ($rowOrColumn = 1; $rowOrColumn <= 8; $rowOrColumn++) {
+            $validPositions[] = $this->createNewRookPosition($this->position->getColumn(), $rowOrColumn);
+            $validPositions[] = $this->createNewRookPosition($rowOrColumn, $this->position->getRow());
+        }
+
+        return array_filter($validPositions);
+    }
+
+    private function createNewRookPosition(int $newColumn, int $newRow): ?Position
+    {
+        try {
+            $position = Position::createFromInts(
+                $newColumn,
+                $newRow
+            );
+            if (!$position->equals($this->position)) {
+                return $position;
+            }
+        } catch (InvalidPositionException $e) {
+            // do nothing, invalid positions are discarded
+        }
+
+        return null;
+    }
+
+    /**
+     * @return Position[]
+     */
     private function getBishopPositions(): array
     {
         $validPositions = [];
@@ -54,38 +86,6 @@ class Queen extends AbstractFigure
         }
 
         return $validPositions;
-    }
-
-    /**
-     * @return Position[]
-     */
-    private function getRookPositions(): array
-    {
-        $validPositions = [];
-
-        for ($rowOrColumn = 1; $rowOrColumn <= 8; $rowOrColumn++) {
-            $validPositions[] = $this->createNewRookPosition($this->position->getColumn(), $rowOrColumn);
-            $validPositions[] = $this->createNewRookPosition($rowOrColumn, $this->position->getRow());
-        }
-
-        return array_filter($validPositions);
-    }
-
-    private function createNewRookPosition(int $newColumn, int $newRow): ?Position
-    {
-        try {
-            $position = Position::createFromInts(
-                $newColumn,
-                $newRow
-            );
-            if (!$position->equals($this->position)) {
-                return $position;
-            }
-        } catch (InvalidPositionException $e) {
-            // do nothing, invalid positions are discarded
-        }
-
-        return null;
     }
 
     public function getIcon(): string
