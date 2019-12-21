@@ -1,13 +1,9 @@
 <?php declare(strict_types=1); ?>
-<?php
-
-use Ramsey\Uuid\Uuid;
-
-?>
+<?php use Ramsey\Uuid\Uuid; ?>
 
 <div class="container board"></div>
 <script>
-    <?php $id = $_GET['game'] ?? Uuid::uuid5(Uuid::NAMESPACE_DNS, $_SERVER['SERVER_NAME'])->toString(); ?>
+    <?php $id = $_GET['game'] ?? Uuid::uuid4()->toString(); ?>
     const id = <?= json_encode($id, JSON_THROW_ON_ERROR, 512) ?>;
 
     function buildBoard(board) {
