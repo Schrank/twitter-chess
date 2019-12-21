@@ -23,19 +23,25 @@ class Api
 
     public function move(string $from, string $to, string $id): array
     {
-        $json = $this->persister->load($id);
-        /** @var Game $game */
-        $game = $this->serializer->unserialize($json);
+        try {
+            $json = $this->persister->load($id);
+            /** @var Game $game */
+            $game = $this->serializer->unserialize($json);
 
-        $game->move(
-            new Position($from),
-            new Position($to)
-        );
-        $this->persister->save(
-            $game->getId(), $this->serializer->serialize($game)
-        );
+            $game->move(
+                new Position($from),
+                new Position($to)
+            );
+            $this->persister->save(
+                $game->getId(), $this->serializer->serialize($game)
+            );
 
-        return $game->getBoard()->toArray();
+            return $game->getBoard()->toArray();
+        } catch (\Exception $e) {
+            header('HTTP/1.1 400 Bad Request');
+
+            return ['error' => $e->getMessage()];
+        }
     }
 
     public function load(string $id): array
