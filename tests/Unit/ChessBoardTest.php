@@ -9,12 +9,12 @@ use Schrank\TwitterChess\Exception\TwoFiguresOnSameSquare;
 use Schrank\TwitterChess\Figure\King;
 
 /**
- * @covers \Schrank\TwitterChess\ChessBoard
+ * @covers \Schrank\TwitterChess\Board
  */
 class ChessBoardTest extends TestCase
 {
 
-    private ChessBoard $board;
+    private Board $board;
 
     public function testToString(): void
     {
@@ -75,11 +75,6 @@ class ChessBoardTest extends TestCase
 
     }
 
-    public function testImplementsJsonSerializable(): void
-    {
-        $this->assertInstanceOf(\JsonSerializable::class, $this->board);
-    }
-
     public function testJsonSerializable(): void
     {
         $figure = $this->createFigure('♟', 'A1');
@@ -93,12 +88,12 @@ class ChessBoardTest extends TestCase
             'F6' => '🎲',
         ];
 
-        $this->assertEqualsCanonicalizing($expected, json_decode($this->board->jsonSerialize(), true));
+        $this->assertEqualsCanonicalizing($expected, $this->board->getFiguresAsArray());
     }
 
     protected function setUp(): void
     {
-        $this->board = new ChessBoard();
+        $this->board = new Board();
     }
 
     /**

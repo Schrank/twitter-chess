@@ -27,7 +27,7 @@ class FilePersister implements Persister
 
         if ($return === false) {
             throw new \RuntimeException(
-                sprintf('Chess "%s" could not be saved.', $id)
+                sprintf('Game "%s" could not be saved.', $id)
             );
         }
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Web;
 
-use Schrank\TwitterChess\Chess;
 use Schrank\TwitterChess\Exception\GameNotFoundException;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Game\Persister;
 use Schrank\TwitterChess\Game\Serializer;
 use Schrank\TwitterChess\Position;
@@ -24,7 +24,7 @@ class Api
     public function move(string $from, string $to, string $id): array
     {
         $json = $this->persister->load($id);
-        /** @var Chess $game */
+        /** @var Game $game */
         $game = $this->serializer->unserialize($json);
 
         $game->move(
@@ -33,7 +33,7 @@ class Api
         );
         $this->persister->save(
         // TODO move serialization into Serializer class
-            $game->getId(), $game->jsonSerialize()
+            $game->getId(), $this->serializer->serialize($game)
         );
 
         return $game->getBoard()->toArray();
@@ -43,11 +43,11 @@ class Api
     {
         try {
             $json = $this->persister->load($id);
-            /** @var Chess $game */
+            /** @var Game $game */
             $game = $this->serializer->unserialize($json);
         } catch (GameNotFoundException $e) {
-            $game = new Chess($id);
-            $this->persister->save($id, $game->jsonSerialize());
+            $game = new Game($id);
+            $this->persister->save($id, $this->serializer->serialize($game));
         }
 
         return $game->getBoard()->toArray();

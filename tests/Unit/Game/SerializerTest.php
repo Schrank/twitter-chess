@@ -129,7 +129,7 @@ class SerializerTest extends TestCase
         );
     }
 
-    public function testSerializeId()
+    public function testSerializeId(): void
     {
         $id   = uniqid('', true);
         $game = $this->createMock(Game::class);

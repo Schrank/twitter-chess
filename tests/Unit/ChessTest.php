@@ -9,22 +9,14 @@ use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
 use Schrank\TwitterChess\Exception\InvalidMoveException;
 
 /**
- * @covers \Schrank\TwitterChess\Chess
+ * @covers \Schrank\TwitterChess\Game
  */
 class ChessTest extends TestCase
 {
-    private Chess $game;
+    private Game $game;
     private string $id;
-    private ChessBoard $board;
-    private Color $currentPlayer;
-    private Color $secondPlayer;
 
-    public function testInstanceOfJsonSerializable(): void
-    {
-        $this->assertInstanceOf(\JsonSerializable::class, $this->game);
-    }
-
-    public function testReturnId()
+    public function testReturnId(): void
     {
         $this->assertSame($this->id, $this->game->getId());
     }
@@ -36,29 +28,12 @@ class ChessTest extends TestCase
         $this->game->move(new Position('B6'), new Position('B6'));
     }
 
-    public function testJsonSerializeable(): void
-    {
-        $boardSerialized = 'board123';
-        $expected        = [
-            'board'         => $boardSerialized,
-            'currentPlayer' => $this->currentPlayer->toString(),
-            'id'            => $this->id
-        ];
-
-        $this->board->method('jsonSerialize')->willReturn($boardSerialized);
-
-        $this->assertSame(
-            $expected,
-            json_decode($this->game->jsonSerialize(), true, 512, JSON_THROW_ON_ERROR)
-        );
-    }
-
     public function testThrowsExceptionIfBoardWithoutPlayerIsPassed(): void
     {
         $this->expectException(InvalidGameConfigurationException::class);
         $this->expectExceptionMessage('If you pass a board, you need to pass two players as well.');
 
-        new Chess('', $this->createMock(ChessBoard::class));
+        new Game('', $this->createMock(Board::class));
     }
 
     public function testThrowsExceptionIfPlayersWithoutBoardIsPassed(): void
@@ -66,22 +41,22 @@ class ChessTest extends TestCase
         $this->expectException(InvalidGameConfigurationException::class);
         $this->expectExceptionMessage('If you pass a player, you need to pass a board.');
 
-        new Chess('', null, $this->createMock(Color::class));
+        new Game('', null, $this->createMock(Color::class));
     }
 
     public function testThrowsExceptionIfOnlyOnePlayerIsPassed(): void
     {
         $this->expectException(InvalidGameConfigurationException::class);
 
-        new Chess('', $this->createMock(ChessBoard::class), $this->createMock(Color::class));
+        new Game('', $this->createMock(Board::class), $this->createMock(Color::class));
     }
 
     protected function setUp(): void
     {
-        $this->id            = uniqid('', true);
-        $this->board         = $this->createMock(ChessBoard::class);
-        $this->currentPlayer = Color::black();
-        $this->secondPlayer  = Color::white();
-        $this->game          = new Chess($this->id, $this->board, $this->currentPlayer, $this->secondPlayer);
+        $this->id      = uniqid('', true);
+        $board         = $this->createMock(Board::class);
+        $currentPlayer = Color::black();
+        $secondPlayer  = Color::white();
+        $this->game    = new Game($this->id, $board, $currentPlayer, $secondPlayer);
     }
 }

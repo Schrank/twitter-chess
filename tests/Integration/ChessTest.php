@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Schrank\TwitterChess\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Schrank\TwitterChess\Chess;
-use Schrank\TwitterChess\ChessBoard;
+use Schrank\TwitterChess\Game;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\FigureDoesNotMatchPlayerException;
 use Schrank\TwitterChess\Exception\InvalidGameConfigurationException;
@@ -14,12 +14,12 @@ use Schrank\TwitterChess\Figure\Pawn;
 use Schrank\TwitterChess\Position;
 
 /**
- * @covers \Schrank\TwitterChess\Chess
- * @uses   \Schrank\TwitterChess\ChessBoard
+ * @covers \Schrank\TwitterChess\Game
+ * @uses   \Schrank\TwitterChess\Board
  */
 class ChessTest extends TestCase
 {
-    private Chess $game;
+    private Game $game;
 
     public function testNewGame(): void
     {
@@ -67,9 +67,9 @@ class ChessTest extends TestCase
         $current = Color::white();
         $second  = Color::black();
 
-        $board = new ChessBoard();
+        $board = new Board();
         $board->addFigure(new Pawn(new Position('B2'), $current));
-        $game = new Chess('123', $board, $current, $second);
+        $game = new Game('123', $board, $current, $second);
 
         $this->assertSame($current, $game->getCurrentPlayer());
         $game->move(new Position('B2'), new Position('B4'));
@@ -81,7 +81,7 @@ class ChessTest extends TestCase
         $this->expectException(InvalidGameConfigurationException::class);
         $this->expectExceptionMessage('If you pass a board, you need to pass two players as well.');
 
-        new Chess('', $this->createMock(ChessBoard::class));
+        new Game('', $this->createMock(Board::class));
     }
 
     public function testThrowsExceptionIfPlayersWithoutBoardIsPassed(): void
@@ -89,14 +89,14 @@ class ChessTest extends TestCase
         $this->expectException(InvalidGameConfigurationException::class);
         $this->expectExceptionMessage('If you pass a player, you need to pass a board.');
 
-        new Chess('', null, $this->createMock(Color::class));
+        new Game('', null, $this->createMock(Color::class));
     }
 
     public function testThrowsExceptionIfOnlyOnePlayerIsPassed(): void
     {
         $this->expectException(InvalidGameConfigurationException::class);
 
-        new Chess('', $this->createMock(ChessBoard::class), $this->createMock(Color::class));
+        new Game('', $this->createMock(Board::class), $this->createMock(Color::class));
     }
 
     public function testUnserializeSerializeGivesSameResult(): void
@@ -106,6 +106,6 @@ class ChessTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->game = new Chess(uniqid('', true));
+        $this->game = new Game(uniqid('', true));
     }
 }

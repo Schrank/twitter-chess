@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Schrank\TwitterChess\Game;
 
-use Schrank\TwitterChess\Chess;
-use Schrank\TwitterChess\ChessBoard;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
 use Schrank\TwitterChess\Figure\FigureFactory;
@@ -17,7 +16,7 @@ class Serializer
     {
         $data = $this->decode($json);
         $this->validateData($data);
-        $board = new ChessBoard();
+        $board = new Board();
         /** @var Color $current */
         $current = Color::{$data['currentPlayer']}();
         $second  = $current->isWhite() ? Color::black() : Color::white();
@@ -32,7 +31,7 @@ class Serializer
             $board->addFigure($factory->createFromIcon($figure, $pos));
         }
 
-        return new Chess($data['id'], $board, $current, $second);
+        return new Game($data['id'], $board, $current, $second);
     }
 
     /**
@@ -72,9 +71,15 @@ class Serializer
             [
                 'currentPlayer' => $game->getCurrentPlayer()->toString(),
                 'id'            => $game->getId(),
+                'board'         => $this->serializeBoard($game->getBoard()),
             ],
             JSON_THROW_ON_ERROR,
             512
         );
+    }
+
+    private function serializeBoard(Board $board): array
+    {
+        return [];
     }
 }

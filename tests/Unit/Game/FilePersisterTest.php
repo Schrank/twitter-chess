@@ -49,7 +49,7 @@ class FilePersisterTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         self::$filePutContentsReturn = false;
-        $this->expectExceptionMessage("Chess \"$id\" could not be saved.");
+        $this->expectExceptionMessage("Game \"$id\" could not be saved.");
 
         $this->persister->save($id, $game);
     }

@@ -6,7 +6,7 @@ namespace Schrank\TwitterChess\Web;
 
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Board;
-use Schrank\TwitterChess\Chess;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Exception\GameNotFoundException;
 use Schrank\TwitterChess\Game\Persister;
 use Schrank\TwitterChess\Game\Serializer;
@@ -24,7 +24,7 @@ class ApiTest extends TestCase
         $id   = uniqid('', true);
 
         // TODO change with mock of Game after Serialization is refactored
-        $gameMock  = $this->createMock(Chess::class);
+        $gameMock  = $this->createMock(Game::class);
         $boardMock = $this->createMock(Board::class);
         $newBoard  = ['NEW BOARD'];
         $boardMock->method('toArray')->willReturn($newBoard);
@@ -35,11 +35,11 @@ class ApiTest extends TestCase
         $this->assertSame($newBoard, $this->api->move($from, $to, $id));
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $id = uniqid('', true);
 
-        $gameMock  = $this->createMock(Chess::class);
+        $gameMock  = $this->createMock(Game::class);
         $boardMock = $this->createMock(Board::class);
         $newBoard  = ['BOARD'];
         $boardMock->expects($this->once())->method('toArray')->willReturn($newBoard);
@@ -50,7 +50,7 @@ class ApiTest extends TestCase
         $this->assertSame($newBoard, $this->api->load($id));
     }
 
-    public function testReturnsNewGameIfNotFound()
+    public function testReturnsNewGameIfNotFound(): void
     {
         $this->persiter->method('load')->willThrowException(new GameNotFoundException());
         $this->persiter->expects($this->once())->method('save');

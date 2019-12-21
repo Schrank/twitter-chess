@@ -7,7 +7,7 @@ namespace Schrank\TwitterChess\Figure;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Schrank\TwitterChess\ChessBoard;
+use Schrank\TwitterChess\Board;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Figure;
 use Schrank\TwitterChess\Position;
@@ -37,7 +37,7 @@ abstract class AbstractFigureTest extends TestCase
         $figure    = new static::$testedClass(new Position($pos), Color::black());
         $positions = array_map(static function (Position $pos) {
             return $pos->toString();
-        }, $figure->getValidPositions($this->createMock(ChessBoard::class)));
+        }, $figure->getValidPositions($this->createMock(Board::class)));
 
         $this->assertEqualsCanonicalizing($expected, $positions);
     }
@@ -67,7 +67,7 @@ abstract class AbstractFigureTest extends TestCase
     {
         $newPosition = new Position(static::$validMove);
         $oldPosition = $this->figure->getPosition();
-        $this->figure->move($newPosition, $this->createMock(ChessBoard::class));
+        $this->figure->move($newPosition, $this->createMock(Board::class));
         $this->assertNotEquals($oldPosition, $newPosition);
     }
 

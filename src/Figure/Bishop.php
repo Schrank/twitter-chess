@@ -46,7 +46,7 @@ class Bishop extends AbstractFigure
                 // other figure blocks the way
                 break;
             } catch (InvalidPositionException $e) {
-                // ChessBoard ended
+                // Board ended
                 break;
             }
         }
