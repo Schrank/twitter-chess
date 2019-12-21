@@ -18,10 +18,19 @@ class FilePersisterTest extends TestCase
     public static int $filePutContentsflags;
     public static /** @noinspection PhpMissingFieldTypeInspection */
         $filePutContentsReturn;
+
     public static array $fileReturn;
     public static string $fileFilename;
+
     public static bool $fileExistsReturn;
     public static string $fileExistsFilename;
+
+    public static bool $isDirReturn;
+    public static string $isDirPath;
+
+    public static bool $mkdirReturn;
+    public static string $mkdirPath;
+
     private FilePersister $persister;
 
     public function testImplementsPersister(): void
@@ -31,19 +40,26 @@ class FilePersisterTest extends TestCase
 
     public function testSave(): void
     {
+        self::$isDirReturn = true;
+
         $id   = uniqid('', true);
         $game = 'game_data';
 
         $this->persister->save($id, $game);
 
+        $this->assertSame(realpath(__DIR__ . '/../../../games'), realpath(self::$isDirPath));
+
         $this->assertSame($game . "\n", self::$filePutContentsdata);
         $this->assertStringEndsWith('.game', self::$filePutContentsfilename);
         $this->assertStringEndsNotWith('.game.game', self::$filePutContentsfilename);
         $this->assertSame(self::$filePutContentsflags, FILE_APPEND);
+
     }
 
     public function testThrowsErrorOnFalseSave(): void
     {
+        self::$isDirReturn = true;
+
         $id   = 'abc';
         $game = 'game_data';
 
@@ -52,6 +68,13 @@ class FilePersisterTest extends TestCase
         $this->expectExceptionMessage("Game \"$id\" could not be saved.");
 
         $this->persister->save($id, $game);
+    }
+
+    public function testThrowsExceptionIfDirectoryIsNotCreated()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageMatches('#Directory "[a-zA-Z/_-]*/\.\./\.\./games" was not created#');
+        $this->persister->save('abc', 'game_data');
     }
 
     public function testLoadReturnsLastEntryFromFile(): void
@@ -92,6 +115,11 @@ class FilePersisterTest extends TestCase
 
         self::$fileExistsFilename = '';
         self::$fileExistsReturn   = false;
+
+        self::$isDirReturn = false;
+        self::$isDirPath   = '';
+        self::$mkdirReturn = false;
+        self::$mkdirPath   = '';
     }
 }
 
@@ -121,7 +149,16 @@ function file_exists($filename): bool
     return FilePersisterTest::$fileExistsReturn;
 }
 
-function mkdir($pathname)
+function mkdir($path)
 {
-    // do nothing
+    FilePersisterTest::$mkdirPath = $path;
+
+    return FilePersisterTest::$mkdirReturn;
+}
+
+function is_dir($path)
+{
+    FilePersisterTest::$isDirPath = $path;
+
+    return FilePersisterTest::$isDirReturn;
 }
