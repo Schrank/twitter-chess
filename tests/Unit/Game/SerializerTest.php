@@ -119,7 +119,7 @@ class SerializerTest extends TestCase
         $this->serializer->unserialize($data);
     }
 
-    public function testSerializesSavesCurrentPlayer()
+    public function testSerializesSavesCurrentPlayer(): void
     {
         $game = $this->createMock(Game::class);
         $game->method('getCurrentPlayer')->willReturn(Color::black());
@@ -127,7 +127,17 @@ class SerializerTest extends TestCase
             Color::BLACK,
             json_decode($this->serializer->serialize($game), true, 512, JSON_THROW_ON_ERROR)['currentPlayer']
         );
+    }
 
+    public function testSerializeId()
+    {
+        $id   = uniqid('', true);
+        $game = $this->createMock(Game::class);
+        $game->method('getId')->willReturn($id);
+        $this->assertSame(
+            $id,
+            json_decode($this->serializer->serialize($game), true, 512, JSON_THROW_ON_ERROR)['id']
+        );
     }
 
     public function testUnserializeSerializeGivesSameResult(): void

@@ -69,7 +69,10 @@ class Serializer
     public function serialize(Game $game): string
     {
         return json_encode(
-            ['currentPlayer' => $game->getCurrentPlayer()->toString()],
+            [
+                'currentPlayer' => $game->getCurrentPlayer()->toString(),
+                'id'            => $game->getId(),
+            ],
             JSON_THROW_ON_ERROR,
             512
         );
