@@ -2,15 +2,13 @@
 <?php
 
 use Ramsey\Uuid\Uuid;
-use Schrank\TwitterChess\Chess;
 
 ?>
 
 <div class="container board"></div>
 <script>
-    <?php $game = (new Chess()); ?>
-    const board = <?= json_encode($game->getBoard()->toArray(), JSON_THROW_ON_ERROR, 512) ?>;
-    const id = <?= json_encode(Uuid::uuid5(Uuid::NAMESPACE_DNS, $_SERVER['SERVER_NAME']), JSON_THROW_ON_ERROR, 512)?>;
+    <?php $id = $_GET['game'] ?? Uuid::uuid5(Uuid::NAMESPACE_DNS, $_SERVER['SERVER_NAME'])->toString(); ?>
+    const id = <?= json_encode($id, JSON_THROW_ON_ERROR, 512) ?>;
 
     function buildBoard(board) {
         let i = 0;
@@ -47,7 +45,19 @@ use Schrank\TwitterChess\Chess;
     }
 
     $(function () {
-        buildBoard(board);
+        $.ajax('/api/load/', {
+            method: 'post',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: (response) => {
+                buildBoard(response);
+            },
+            error: (response) => {
+                console.log(response.error);
+            }
+        });
         $('.board').on('click touch', function (event) {
             let elem = $(event.target);
             let activeSquare = $('.active');
@@ -64,7 +74,8 @@ use Schrank\TwitterChess\Chess;
                         buildBoard(response);
                     },
                     error: (response) => {
-                        alert(response.error);
+                        // TODO implement proper error handling
+                        console.log(response.error);
                     }
                 });
             }
