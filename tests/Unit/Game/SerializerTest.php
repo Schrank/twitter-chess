@@ -7,6 +7,7 @@ namespace Schrank\TwitterChess\Game;
 use PHPUnit\Framework\TestCase;
 use Schrank\TwitterChess\Color;
 use Schrank\TwitterChess\Exception\InvalidJsonDataException;
+use Schrank\TwitterChess\Game;
 use Schrank\TwitterChess\Position;
 
 /**
@@ -33,7 +34,7 @@ class SerializerTest extends TestCase
     private function getSerializedData(string $currentPlayer, string $id, array $board)
     {
         $data = json_encode([
-            'board'         => $board,
+            'board'         => json_encode($board, JSON_THROW_ON_ERROR, 512),
             'currentPlayer' => $currentPlayer,
             'id'            => $id,
         ], JSON_THROW_ON_ERROR, 512);
@@ -116,6 +117,22 @@ class SerializerTest extends TestCase
         $data = 'd';
 
         $this->serializer->unserialize($data);
+    }
+
+    public function testSerializesSavesCurrentPlayer()
+    {
+        $game = $this->createMock(Game::class);
+        $game->method('getCurrentPlayer')->willReturn(Color::black());
+        $this->assertSame(
+            Color::BLACK,
+            json_decode($this->serializer->serialize($game), true, 512, JSON_THROW_ON_ERROR)['currentPlayer']
+        );
+
+    }
+
+    public function testUnserializeSerializeGivesSameResult(): void
+    {
+        $this->markTestIncomplete('Implement me!');
     }
 
     protected function setUp(): void
